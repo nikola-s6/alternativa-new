@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
 import Image from 'next/image';
+import { menuItems, socialItems } from '@/config/site';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -26,35 +27,6 @@ const Header = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
-  const menuItems = [
-    { name: 'Програм', href: '/program' },
-    { name: 'Вести', href: '/news' },
-    { name: 'Тим', href: '/team' },
-  ];
-
-  const socialItems = [
-    {
-      name: 'Facebook',
-      icon: Facebook,
-      href: 'https://www.facebook.com/alternativacentar?mibextid=ZbWKwL',
-    },
-    {
-      name: 'Twitter',
-      icon: Twitter,
-      href: 'https://x.com/alt_centar?t=VXmr8B1fE3Hu37JZX3AZ-w&s=09',
-    },
-    {
-      name: 'Instagram',
-      icon: Instagram,
-      href: 'https://www.instagram.com/alternativacentar?igsh=MTFsdnZwejE5aWVmMA%3D%3D',
-    },
-    {
-      name: 'Youtube',
-      icon: Youtube,
-      href: 'https://www.youtube.com/@alternativacentar',
-    },
-  ];
 
   return (
     <header className='bg-white shadow-md border-b-4 border-solid border-destructive'>
@@ -81,7 +53,7 @@ const Header = () => {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className='text-gray-600 hover:text-gray-900'
+                    className='text-gray-600 border-b-2 border-transparent transition-[border-color] duration-300 ease-in-out hover:text-gray-900  hover:border-destructive'
                   >
                     {item.name}
                   </Link>
@@ -124,7 +96,7 @@ const Header = () => {
                   href={item.href}
                   target='_blank'
                   rel='noopener noreferrer'
-                  className='text-gray-600 hover:text-gray-900'
+                  className='text-primary hover:text-destructive transition-colors'
                 >
                   <item.icon className='h-5 w-5' />
                   <span className='sr-only'>{item.name}</span>
@@ -139,12 +111,14 @@ const Header = () => {
       {isMobile && isMobileMenuOpen && (
         <div className='fixed inset-0 bg-white z-50 overflow-y-auto'>
           <div className='flex justify-between items-center p-4 border-b'>
-            <Link
-              href='/'
-              className='text-2xl font-bold text-gray-800'
-              onClick={toggleMobileMenu}
-            >
-              Logo
+            <Link href='/' className='block'>
+              <Image
+                src='/logos/white.jpg'
+                alt='Logo'
+                width={100}
+                height={40}
+                className='h-10 w-auto'
+              />
             </Link>
             <button
               onClick={toggleMobileMenu}
@@ -153,12 +127,12 @@ const Header = () => {
               <X className='h-6 w-6' />
             </button>
           </div>
-          <nav className='flex-grow flex flex-col justify-center items-center space-y-8'>
+          <nav className='flex-grow flex flex-col justify-center items-center space-y-8 pt-10'>
             {menuItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className='text-xl text-gray-600 hover:text-gray-900'
+                className='text-xl border-b-2 border-transparent transition-[border-color] duration-300 ease-in-out text-gray-600 hover:text-gray-900 hover:border-destructive'
                 onClick={toggleMobileMenu}
               >
                 {item.name}
