@@ -2,8 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'regular';
+  src: url('/fonts/pn-regular.otf');
+}
+
+@font-face {
+  font-family: 'bold';
+  src: url('/fonts/pn-bold.otf');
+}
+
+@font-face {
+  font-family: 'extrabold';
+  src: url('/fonts/pn-extrabold.otf');
+}
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'regular';
 }
 
 @layer base {
@@ -14,7 +29,8 @@ body {
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
+    /* --primary: 222.2 47.4% 11.2%; */
+    --primary: 211 98% 21%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -22,7 +38,8 @@ body {
     --muted-foreground: 215.4 16.3% 46.9%;
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
+    /* --destructive: 0 84.2% 60.2% */
+    --destructive: 359 70% 31%;
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
