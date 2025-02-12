@@ -1,3 +1,4 @@
+import { NewsSection } from '@/components/home/newsSection';
 import { ProgramSection } from '@/components/home/programSection';
 import { TeamSection } from '@/components/home/team';
 import { HomeSection } from '@/components/home/welcomeSection';
@@ -10,6 +11,7 @@ export default function Home() {
       <TeamSection />
       <YouTubeSection />
       <ProgramSection />
+      <NewsSection />
     </main>
   );
 }
