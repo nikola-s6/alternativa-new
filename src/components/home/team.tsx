@@ -7,33 +7,60 @@ import useEmblaCarousel from 'embla-carousel-react';
 
 type TeamMember = {
   name: string;
-  image: string;
+  image?: string;
+  position: string;
 };
 
 const teamMembers: TeamMember[] = [
-  { name: 'Филип Калмаревић', image: '/team/filip-kalmarevic.jpg' },
-  { name: 'Пеђа Милосављевић', image: '/team/pedja-milosavljevic.jpg' },
-  { name: 'Филип Калмаревић 1', image: '/team/filip-kalmarevic.jpg' },
-  { name: 'Пеђа Милосављевић 1', image: '/team/pedja-milosavljevic.jpg' },
-  { name: 'Филип Калмаревић 2', image: '/team/filip-kalmarevic.jpg' },
-  { name: 'Пеђа Милосављевић 2', image: '/team/pedja-milosavljevic.jpg' },
-  { name: 'Филип Калмаревић 3', image: '/team/filip-kalmarevic.jpg' },
-  { name: 'Пеђа Милосављевић 3', image: '/team/pedja-milosavljevic.jpg' },
-  { name: 'Филип Калмаревић 4', image: '/team/filip-kalmarevic.jpg' },
-  { name: 'Пеђа Милосављевић 4', image: '/team/pedja-milosavljevic.jpg' },
+  {
+    name: 'Пеђа Милосављевић',
+    position: 'Председник покрета',
+    image: '/team/pedja-milosavljevic.jpg',
+  },
+  {
+    name: 'Филип Калмаревић',
+    position: 'Генерални секретар',
+    image: '/team/filip-kalmarevic.jpg',
+  },
+  {
+    name: 'Борис Поседи',
+    position: 'Извршни одбор',
+  },
+  {
+    name: 'Тања Бакић',
+    position: 'Маркетинг тим',
+  },
 ];
 
-const TeamMemberCard: React.FC<TeamMember> = ({ name, image }) => (
+const TeamMemberCard: React.FC<TeamMember> = ({ name, image, position }) => (
   <div className='flex-shrink-0 w-64 mx-2 sm:mx-3'>
     <div className='relative w-full h-64 mb-4 overflow-hidden rounded-lg border-4 border-white shadow-lg'>
-      <Image
-        src={image || '/placeholder.svg'}
-        alt={name}
-        fill
-        className='object-cover'
-      />
+      {image ? (
+        <Image
+          src={image || '/placeholder.svg'}
+          alt={name}
+          fill
+          className='object-cover'
+        />
+      ) : (
+        <div className='w-full h-full bg-gray-300 flex items-center justify-center'>
+          <svg
+            className='w-32 h-32 text-gray-500'
+            fill='currentColor'
+            viewBox='0 0 20 20'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              fillRule='evenodd'
+              d='M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z'
+              clipRule='evenodd'
+            />
+          </svg>
+        </div>
+      )}
     </div>
     <h3 className='text-xl font-semibold text-white text-center'>{name}</h3>
+    <p className='text-sm text-gray-300 text-center'>{position}</p>
   </div>
 );
 
