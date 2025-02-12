@@ -36,7 +36,7 @@ const Header = () => {
           <div className='flex-shrink-0'>
             <Link href='/' className='block'>
               <Image
-                src='/logos/blue-logo.jpg'
+                src='/logos/blue.jpg'
                 alt='Logo'
                 width={100}
                 height={40}
