@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { ContactForm } from './contact-form';
+import { ContactForm } from './contactForm';
 
 export function HomeSection() {
   return (
