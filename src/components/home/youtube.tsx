@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import YouTube from 'react-youtube';
 import useEmblaCarousel from 'embla-carousel-react';
 import type { Video } from '@/app/api/videos/route';
@@ -35,31 +35,32 @@ export function YouTubeSection() {
     fetchVideos();
   }, []);
 
-  const startAutoplay = () => {
+  const startAutoplay = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       if (emblaApi && playingVideos === 0) emblaApi.scrollNext();
     }, 5000);
-  };
+  }, [emblaApi, playingVideos]);
 
-  const stopAutoplay = () => {
+  const stopAutoplay = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
-  };
+  }, []);
 
   useEffect(() => {
     if (emblaApi) {
-      emblaApi.on('select', () => {
+      const handleSelect = () => {
         setCurrentIndex(emblaApi.selectedScrollSnap());
-      });
+      };
 
+      emblaApi.on('select', handleSelect);
       startAutoplay();
 
       return () => {
         stopAutoplay();
-        emblaApi.off('select', () => { });
+        emblaApi.off('select', handleSelect);
       };
     }
-  }, [emblaApi, startAutoplay, stopAutoplay]); // Added stopAutoplay to dependencies
+  }, [emblaApi, startAutoplay, stopAutoplay]);
 
   const handleVideoStateChange = (
     event: { target: any; data: number },
@@ -111,36 +112,36 @@ export function YouTubeSection() {
           <div className='flex'>
             {isLoading
               ? Array(5)
-                .fill(0)
-                .map((_, index) => <LoadingSkeleton key={index} />)
+                  .fill(0)
+                  .map((_, index) => <LoadingSkeleton key={index} />)
               : videos.map((video, index) => (
-                <div
-                  key={video.id}
-                  className='flex-shrink-0 w-[300px] mx-2 sm:mx-3'
-                >
-                  <div className='relative w-full mb-4 overflow-hidden rounded-lg shadow-lg'>
-                    <YouTube
-                      videoId={video.id}
-                      opts={{
-                        height: '169',
-                        width: '300',
-                        playerVars: {
-                          autoplay: 0,
-                          controls: 1,
-                          modestbranding: 1,
-                        },
-                      }}
-                      onStateChange={(event) =>
-                        handleVideoStateChange(event, index)
-                      }
-                      className='w-full'
-                    />
+                  <div
+                    key={video.id}
+                    className='flex-shrink-0 w-[300px] mx-2 sm:mx-3'
+                  >
+                    <div className='relative w-full mb-4 overflow-hidden rounded-lg shadow-lg'>
+                      <YouTube
+                        videoId={video.id}
+                        opts={{
+                          height: '169',
+                          width: '300',
+                          playerVars: {
+                            autoplay: 0,
+                            controls: 1,
+                            modestbranding: 1,
+                          },
+                        }}
+                        onStateChange={(event) =>
+                          handleVideoStateChange(event, index)
+                        }
+                        className='w-full'
+                      />
+                    </div>
+                    <h3 className='text-xl font-semibold text-white text-center'>
+                      {video.title}
+                    </h3>
                   </div>
-                  <h3 className='text-xl font-semibold text-white text-center'>
-                    {video.title}
-                  </h3>
-                </div>
-              ))}
+                ))}
           </div>
         </div>
       </div>
