@@ -5,7 +5,7 @@ import { menuItems, socialItems } from '@/config/site';
 
 const Footer = () => {
   return (
-    <footer className='bg-[#0B2C5B] text-white relative'>
+    <footer className='bg-primary text-white relative'>
       {/* Social media section with offset box effect */}
       <div className='absolute left-1/2 -translate-x-1/2 -top-8 w-full max-w-2xl'>
         <div className='relative mx-4'>
