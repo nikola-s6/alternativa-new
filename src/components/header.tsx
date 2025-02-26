@@ -6,6 +6,7 @@ import { Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
 import Image from 'next/image';
 import { menuItems, socialItems } from '@/config/site';
+import { SocialIcon } from './SocialIcon';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -98,7 +99,7 @@ const Header = () => {
                   rel='noopener noreferrer'
                   className='text-primary hover:text-destructive transition-colors'
                 >
-                  <item.icon className='h-5 w-5' />
+                  <SocialIcon icon={item.icon} />
                   <span className='sr-only'>{item.name}</span>
                 </a>
               ))}

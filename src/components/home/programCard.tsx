@@ -26,7 +26,7 @@ export function ProgramCard({ title, image }: ProgramCardProps) {
         />
       </div>
       <div className='p-4'>
-        <h3 className='text-lg font-semibold'>{title}</h3>
+        <h3 className='text-lg text-center font-semibold'>{title}</h3>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ type ProgramCard = {
 
 const programCards: ProgramCard[] = [
   {
-    title: 'Нови пројекти (инфраструктура)',
+    title: 'Нови пројекти',
     image: '/program/infrastruktura.png',
   },
   { title: 'Рад локалне самоуправе', image: '/program/samouprava.png' },

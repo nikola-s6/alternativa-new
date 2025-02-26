@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Button } from './ui/button';
 import { menuItems, socialItems } from '@/config/site';
+import { SocialIcon } from './SocialIcon';
 
 const Footer = () => {
   return (
@@ -22,7 +22,7 @@ const Footer = () => {
                   rel='noopener noreferrer'
                   className='text-gray-600 text-primary hover:text-destructive transition-colors'
                 >
-                  <item.icon className='h-10 w-10' />
+                  <SocialIcon icon={item.icon} size={35} />
                   <span className='sr-only'>{item.name}</span>
                 </a>
               ))}
@@ -33,38 +33,24 @@ const Footer = () => {
 
       {/* Main footer content */}
       <div className='container mx-auto px-4 pt-24 pb-12'>
-        <div className='flex flex-col items-center'>
-          {/* Logo */}
-          <Link href='/' className='mb-12'>
-            <Image
-              src='/logos/blue.jpg'
-              alt='Logo'
-              width={150}
-              height={60}
-              className='h-15 w-auto'
-            />
-          </Link>
+        <div className='flex flex-wrap items-center justify-center'>
+          {/* Navigation and Button container */}
+          <div className='flex flex-wrap items-center gap-8'>
+            {menuItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className='text-xl font-medium hover:text-gray-300'
+              >
+                {item.name}
+              </Link>
+            ))}
 
-          {/* Navigation */}
-          <nav className='mb-8'>
-            <ul className='flex flex-wrap justify-center space-x-16'>
-              {menuItems.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className='text-xl font-medium hover:text-gray-300'
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          {/* Button */}
-          <Button asChild variant='custom'>
-            <Link href='/'>Прикључи се</Link>
-          </Button>
+            {/* Button */}
+            <Button asChild variant='custom'>
+              <Link href='/'>Прикључи се</Link>
+            </Button>
+          </div>
         </div>
       </div>
     </footer>
