@@ -102,7 +102,14 @@ export function TeamSection() {
   }, [emblaApi]);
 
   return (
-    <section className='py-16 bg-primary'>
+    <section
+      className='py-16 relative overflow-hidden'
+      style={{
+        backgroundImage: `linear-gradient(to right, rgba(0,51,110,0.95), rgba(0,51,110,0.8)), url('/cukarica/slika3.jpg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
         <h2 className='text-3xl font-bold text-center mb-12 text-white'>
           Наш тим

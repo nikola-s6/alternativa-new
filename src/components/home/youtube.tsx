@@ -99,49 +99,49 @@ export function YouTubeSection() {
     <section
       className='py-16 relative overflow-hidden'
       style={{
-        backgroundImage: `linear-gradient(to right, rgba(0,51,110,0.95), rgba(0,51,110,0.8)), url('/cukarica.jpg')`,
+        backgroundImage: `linear-gradient(to right, rgba(0,51,110,0.95), rgba(0,51,110,0.8)), url('/cukarica/slika2.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
         <h2 className='text-3xl font-bold text-center mb-12 text-white'>
-          ДИСЦИПЛИНА. ОДГОВОРНОСТ. РЕЗУЛТАИ.
+          ДИСЦИПЛИНА. ОДГОВОРНОСТ. РЕЗУЛТАТИ.
         </h2>
         <div className='overflow-hidden' ref={emblaRef}>
           <div className='flex'>
             {isLoading
               ? Array(5)
-                  .fill(0)
-                  .map((_, index) => <LoadingSkeleton key={index} />)
+                .fill(0)
+                .map((_, index) => <LoadingSkeleton key={index} />)
               : videos.map((video, index) => (
-                  <div
-                    key={video.id}
-                    className='flex-shrink-0 w-[300px] mx-2 sm:mx-3'
-                  >
-                    <div className='relative w-full mb-4 overflow-hidden rounded-lg shadow-lg'>
-                      <YouTube
-                        videoId={video.id}
-                        opts={{
-                          height: '169',
-                          width: '300',
-                          playerVars: {
-                            autoplay: 0,
-                            controls: 1,
-                            modestbranding: 1,
-                          },
-                        }}
-                        onStateChange={(event) =>
-                          handleVideoStateChange(event, index)
-                        }
-                        className='w-full'
-                      />
-                    </div>
-                    <h3 className='text-xl font-semibold text-white text-center'>
-                      {video.title}
-                    </h3>
+                <div
+                  key={video.id}
+                  className='flex-shrink-0 w-[300px] mx-2 sm:mx-3'
+                >
+                  <div className='relative w-full mb-4 overflow-hidden rounded-lg shadow-lg'>
+                    <YouTube
+                      videoId={video.id}
+                      opts={{
+                        height: '169',
+                        width: '300',
+                        playerVars: {
+                          autoplay: 0,
+                          controls: 1,
+                          modestbranding: 1,
+                        },
+                      }}
+                      onStateChange={(event) =>
+                        handleVideoStateChange(event, index)
+                      }
+                      className='w-full'
+                    />
                   </div>
-                ))}
+                  <h3 className='text-xl font-semibold text-white text-center'>
+                    {video.title}
+                  </h3>
+                </div>
+              ))}
           </div>
         </div>
       </div>
