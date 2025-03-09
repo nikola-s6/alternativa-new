@@ -29,5 +29,5 @@ const videos: Video[] = [
 ];
 
 export async function GET() {
-  return NextResponse.json(videos);
+  return NextResponse.json(videos.slice(0, 3));
 }

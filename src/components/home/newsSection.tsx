@@ -47,39 +47,41 @@ export function NewsSection() {
   );
 
   return (
-    <section className='bg-white pb-24'>
+    <section className='bg-white pb-12'>
       <div className='bg-destructive py-6'>
-        <h2 className='text-3xl font-bold text-center text-white'>Вести</h2>
+        <h2 className='text-4xl font-extrabold text-center text-white'>
+          Вести
+        </h2>
       </div>
       <div className='container mx-auto px-4 py-8'>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {loading
             ? Array(6)
-                .fill(0)
-                .map((_, index) => <NewsSkeleton key={index} />)
+              .fill(0)
+              .map((_, index) => <NewsSkeleton key={index} />)
             : news.map((article) => (
-                <div
-                  key={article.id}
-                  className='cursor-pointer bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full'
-                >
-                  <div className='relative h-48'>
-                    <Image
-                      src={article.image || '/placeholder.svg'}
-                      alt={article.title}
-                      layout='fill'
-                      objectFit='cover'
-                    />
-                  </div>
-                  <div className='p-4 flex flex-col flex-grow'>
-                    <h3 className='text-xl font-semibold mb-2 flex-grow'>
-                      {article.title}
-                    </h3>
-                    <p className='text-sm text-gray-500 mt-auto'>
-                      {formatDate(article.date)}
-                    </p>
-                  </div>
+              <div
+                key={article.id}
+                className='cursor-pointer bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full'
+              >
+                <div className='relative h-48'>
+                  <Image
+                    src={article.image || '/placeholder.svg'}
+                    alt={article.title}
+                    layout='fill'
+                    objectFit='cover'
+                  />
                 </div>
-              ))}
+                <div className='p-4 flex flex-col flex-grow'>
+                  <h3 className='text-xl font-semibold mb-2 flex-grow'>
+                    {article.title}
+                  </h3>
+                  <p className='text-sm text-gray-500 mt-auto'>
+                    {formatDate(article.date)}
+                  </p>
+                </div>
+              </div>
+            ))}
         </div>
       </div>
     </section>

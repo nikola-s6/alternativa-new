@@ -65,7 +65,9 @@ const Header = () => {
             {/* Connect Button (Desktop) */}
             {!isMobile && (
               <Button asChild>
-                <Link href='/'>Прикључи се</Link>
+                <Link href='/' className='font-extrabold'>
+                  Прикључи се
+                </Link>
               </Button>
             )}
           </div>
@@ -140,7 +142,11 @@ const Header = () => {
               </Link>
             ))}
             <Button asChild className='mt-8'>
-              <Link href='/learn-more' onClick={toggleMobileMenu}>
+              <Link
+                className='font-extrabold'
+                href='/learn-more'
+                onClick={toggleMobileMenu}
+              >
                 Прикључи се
               </Link>
             </Button>

@@ -3,7 +3,7 @@ import { ContactForm } from './contactForm';
 
 export function HomeSection() {
   return (
-    <section className='relative min-h-[600px] overflow-hidden'>
+    <section className='relative min-h-[600px] overflow-hidden flex items-center'>
       {/* Background Image with Gradient Overlay */}
       <div className='absolute inset-0'>
         <Image
@@ -23,7 +23,7 @@ export function HomeSection() {
           <div className='col-span-2 md:col-span-1 py-12'>
             <div className='max-w-md space-y-8'>
               <div>
-                <h2 className='text-3xl font-bold text-white mb-4'>
+                <h2 className='text-4xl font-extrabold text-white mb-4'>
                   Чукарица на првом месту
                 </h2>
               </div>

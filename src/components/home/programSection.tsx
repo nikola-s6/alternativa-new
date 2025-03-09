@@ -1,3 +1,5 @@
+import { Button } from '../ui/button';
+import Link from 'next/link';
 import { ProgramCard } from './programCard';
 
 type ProgramCard = {
@@ -23,9 +25,14 @@ export function ProgramSection() {
       <div className='container mx-auto'>
         <div className='flex flex-col lg:flex-row lg:items-center'>
           <div className='lg:w-1/3 mb-8 lg:mb-0'>
-            <h2 className='text-primary text-3xl lg:text-5xl font-bold text-center lg:text-left lg:leading-tight'>
-              ПРОГРАМ ЧУКАРИЦЕ НА ПРВОМ МЕСТУ
+            <h2 className='text-primary text-4xl lg:text-5xl font-extrabold text-center lg:text-left lg:leading-tight'>
+              ПРОГРАМ ЗА ЧУКАРИЦУ НА ПРВОМ МЕСТУ
             </h2>
+            <Button asChild>
+              <Link href='/' className='font-extrabold'>
+                Прочитај више
+              </Link>
+            </Button>
           </div>
           <div className='lg:w-2/3'>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>

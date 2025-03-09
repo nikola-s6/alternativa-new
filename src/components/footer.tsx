@@ -48,7 +48,9 @@ const Footer = () => {
 
             {/* Button */}
             <Button asChild variant='custom'>
-              <Link href='/'>Прикључи се</Link>
+              <Link className='font-extrabold' href='/'>
+                Прикључи се
+              </Link>
             </Button>
           </div>
         </div>

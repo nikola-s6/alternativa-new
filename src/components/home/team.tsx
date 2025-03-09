@@ -1,7 +1,7 @@
 'use client';
 
 import type React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 
@@ -60,11 +60,14 @@ const TeamMemberCard: React.FC<TeamMember> = ({ name, image, position }) => (
       )}
     </div>
     <h3 className='text-xl font-semibold text-white text-center'>{name}</h3>
-    <p className='text-sm text-gray-300 text-center'>{position}</p>
+    <p className='text-sm text-gray-300 text-center leading-none'>{position}</p>
   </div>
 );
 
 export function TeamSection() {
+  const [windowWidth, setWindowWidth] = useState(0);
+  const wrapper = useRef<HTMLDivElement>(null);
+  const [useEmbla, setUseEmbla] = useState(false);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: 'center',
@@ -75,6 +78,12 @@ export function TeamSection() {
   });
 
   useEffect(() => {
+    const checkEmbla = () => {
+      if (wrapper.current) {
+        setUseEmbla(!(windowWidth > teamMembers.length * 272));
+      }
+    };
+    checkEmbla();
     if (emblaApi) {
       let intervalId: NodeJS.Timeout;
 
@@ -99,7 +108,23 @@ export function TeamSection() {
         emblaApi.off('pointerUp', startAutoplay);
       };
     }
-  }, [emblaApi]);
+  }, [emblaApi, windowWidth]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (wrapper.current) setWindowWidth(wrapper.current.clientWidth);
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize, false);
+    window.addEventListener('orientationchange', handleResize, false);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
+    };
+  }, []);
 
   return (
     <section
@@ -111,15 +136,25 @@ export function TeamSection() {
       }}
     >
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-        <h2 className='text-3xl font-bold text-center mb-12 text-white'>
+        <h2 className='text-4xl font-extrabold text-center mb-12 text-white'>
           Наш тим
         </h2>
-        <div className='overflow-hidden' ref={emblaRef}>
-          <div className='flex'>
-            {teamMembers.map((member, index) => (
-              <TeamMemberCard key={index} {...member} />
-            ))}
-          </div>
+        <div ref={wrapper}>
+          {useEmbla ? (
+            <div className='overflow-hidden' ref={emblaRef}>
+              <div className='flex'>
+                {teamMembers.map((member, index) => (
+                  <TeamMemberCard key={index} {...member} />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className='w-full flex justify-center'>
+              {teamMembers.map((member, index) => (
+                <TeamMemberCard key={index} {...member} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

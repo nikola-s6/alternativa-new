@@ -98,6 +98,9 @@ export function MapSection() {
       <div className='container mx-auto px-4'>
         <div className='flex flex-col lg:flex-row items-center justify-between gap-8'>
           <div className='w-full lg:w-1/3 flex flex-col items-center space-y-4'>
+            <h2 className='font-extrabold text-4xl text-primary'>
+              ПРИКЉУЧИ СЕ!
+            </h2>
             <Select onValueChange={handleNeighborhoodSelect}>
               <SelectTrigger className='w-full'>
                 <SelectValue placeholder='Изабери месну заједницу' />
@@ -113,9 +116,9 @@ export function MapSection() {
                 ))}
               </SelectContent>
             </Select>
-            <Button className='w-full'>Детаљи</Button>
+            <Button className='w-full font-extrabold'>Детаљи</Button>
           </div>
-          <div className='w-full lg:w-1/2 relative'>
+          <div className='w-1/2 lg:w-1/4 relative'>
             <svg
               ref={svgRef}
               xmlns='http://www.w3.org/2000/svg'

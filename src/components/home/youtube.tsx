@@ -7,6 +7,9 @@ import type { Video } from '@/app/api/videos/route';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function YouTubeSection() {
+  const [windowWidth, setWindowWidth] = useState(0);
+  const wrapper = useRef<HTMLDivElement>(null);
+  const [useEmbla, setUseEmbla] = useState(false);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: 'center',
@@ -47,6 +50,12 @@ export function YouTubeSection() {
   }, []);
 
   useEffect(() => {
+    const checkEmbla = () => {
+      if (wrapper.current) {
+        setUseEmbla(!(windowWidth > videos.length * 304));
+      }
+    };
+    checkEmbla();
     if (emblaApi) {
       const handleSelect = () => {
         setCurrentIndex(emblaApi.selectedScrollSnap());
@@ -60,7 +69,25 @@ export function YouTubeSection() {
         emblaApi.off('select', handleSelect);
       };
     }
-  }, [emblaApi, startAutoplay, stopAutoplay]);
+    window.addEventListener('resize', checkEmbla, false);
+    window.addEventListener('orientationchange', checkEmbla, false);
+  }, [emblaApi, startAutoplay, stopAutoplay, windowWidth]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (wrapper.current) setWindowWidth(wrapper.current.clientWidth);
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize, false);
+    window.addEventListener('orientationchange', handleResize, false);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
+    };
+  }, []);
 
   const handleVideoStateChange = (
     event: { target: any; data: number },
@@ -105,44 +132,79 @@ export function YouTubeSection() {
       }}
     >
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-        <h2 className='text-3xl font-bold text-center mb-12 text-white'>
+        <h2 className='text-4xl font-extrabold text-center mb-12 text-white'>
           ДИСЦИПЛИНА. ОДГОВОРНОСТ. РЕЗУЛТАТИ.
         </h2>
-        <div className='overflow-hidden' ref={emblaRef}>
-          <div className='flex'>
-            {isLoading
-              ? Array(5)
-                .fill(0)
-                .map((_, index) => <LoadingSkeleton key={index} />)
-              : videos.map((video, index) => (
-                <div
-                  key={video.id}
-                  className='flex-shrink-0 w-[300px] mx-2 sm:mx-3'
-                >
-                  <div className='relative w-full mb-4 overflow-hidden rounded-lg shadow-lg'>
-                    <YouTube
-                      videoId={video.id}
-                      opts={{
-                        height: '169',
-                        width: '300',
-                        playerVars: {
-                          autoplay: 0,
-                          controls: 1,
-                          modestbranding: 1,
-                        },
-                      }}
-                      onStateChange={(event) =>
-                        handleVideoStateChange(event, index)
-                      }
-                      className='w-full'
-                    />
+        <div className='w-full' ref={wrapper}>
+          {isLoading || !useEmbla ? (
+            <div className='w-full flex justify-around'>
+              {isLoading
+                ? Array(3)
+                  .fill(0)
+                  .map((_, index) => <LoadingSkeleton key={index} />)
+                : videos.map((video, index) => (
+                  <div
+                    key={video.id}
+                    className='flex-shrink-0 w-[300px] mx-2 sm:mx-3'
+                  >
+                    <div className='relative w-full mb-4 overflow-hidden rounded-lg shadow-lg'>
+                      <YouTube
+                        videoId={video.id}
+                        opts={{
+                          height: '169',
+                          width: '300',
+                          playerVars: {
+                            autoplay: 0,
+                            controls: 1,
+                            modestbranding: 1,
+                          },
+                        }}
+                        onStateChange={(event) =>
+                          handleVideoStateChange(event, index)
+                        }
+                        className='w-full'
+                      />
+                    </div>
+                    <h3 className='text-xl font-semibold text-white text-center'>
+                      {video.title}
+                    </h3>
                   </div>
-                  <h3 className='text-xl font-semibold text-white text-center'>
-                    {video.title}
-                  </h3>
-                </div>
-              ))}
-          </div>
+                ))}
+            </div>
+          ) : (
+            <div className='overflow-hidden' ref={useEmbla ? emblaRef : null}>
+              <div className='flex'>
+                {videos.map((video, index) => (
+                  <div
+                    key={video.id}
+                    className='flex-shrink-0 w-[300px] mx-2 sm:mx-3'
+                  >
+                    <div className='relative w-full mb-4 overflow-hidden rounded-lg shadow-lg'>
+                      <YouTube
+                        videoId={video.id}
+                        opts={{
+                          height: '169',
+                          width: '300',
+                          playerVars: {
+                            autoplay: 0,
+                            controls: 1,
+                            modestbranding: 1,
+                          },
+                        }}
+                        onStateChange={(event) =>
+                          handleVideoStateChange(event, index)
+                        }
+                        className='w-full'
+                      />
+                    </div>
+                    <h3 className='text-xl font-semibold text-white text-center'>
+                      {video.title}
+                    </h3>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
