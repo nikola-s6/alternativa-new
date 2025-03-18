@@ -33,7 +33,7 @@ const teamMembers: TeamMember[] = [
 ];
 
 const TeamMemberCard: React.FC<TeamMember> = ({ name, image, position }) => (
-  <div className='flex-shrink-0 w-64 mx-2 sm:mx-3'>
+  <div className='flex-shrink-0 w-64 mx-2 sm:mx-3 cursor-grab active:cursor-grabbing'>
     <div className='relative w-full h-64 mb-4 overflow-hidden rounded-lg border-4 border-white shadow-lg'>
       {image ? (
         <Image
@@ -130,14 +130,14 @@ export function TeamSection() {
     <section
       className='py-16 relative overflow-hidden'
       style={{
-        backgroundImage: `linear-gradient(to right, rgba(0,51,110,0.95), rgba(0,51,110,0.8)), url('/cukarica/slika3.jpg')`,
+        backgroundImage: `linear-gradient(to right, rgba(0,51,110,0.95), rgba(0,51,110,0.8)), url('/cukarica/slika2.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
       <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
         <h2 className='text-4xl font-extrabold text-center mb-12 text-white'>
-          Наш тим
+          НАШ ТИМ
         </h2>
         <div ref={wrapper}>
           {useEmbla ? (

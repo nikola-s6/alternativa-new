@@ -33,9 +33,9 @@ const Footer = () => {
 
       {/* Main footer content */}
       <div className='container mx-auto px-4 pt-24 pb-12'>
-        <div className='flex flex-wrap items-center justify-center'>
+        <div className='flex flex-col items-center justify-center'>
           {/* Navigation and Button container */}
-          <div className='flex flex-wrap items-center gap-8'>
+          <div className='flex flex-wrap justify-center gap-8'>
             {menuItems.map((item) => (
               <Link
                 key={item.name}

@@ -180,6 +180,7 @@ export function YouTubeSection() {
                     className='flex-shrink-0 w-[300px] mx-2 sm:mx-3'
                   >
                     <div className='relative w-full mb-4 overflow-hidden rounded-lg shadow-lg'>
+                      <div className='absolute inset-0 z-10 cursor-grab active:cursor-grabbing' />
                       <YouTube
                         videoId={video.id}
                         opts={{

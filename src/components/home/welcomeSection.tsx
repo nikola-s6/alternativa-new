@@ -23,8 +23,8 @@ export function HomeSection() {
           <div className='col-span-2 md:col-span-1 py-12'>
             <div className='max-w-md space-y-8'>
               <div>
-                <h2 className='text-4xl font-extrabold text-white mb-4'>
-                  Чукарица на првом месту
+                <h2 className='text-4xl font-extrabold text-white mb-4 text-center'>
+                  ЧУКАРИЦА НА ПРВОМ МЕСТУ
                 </h2>
               </div>
               <ContactForm />

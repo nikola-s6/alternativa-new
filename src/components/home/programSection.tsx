@@ -5,18 +5,40 @@ import { ProgramCard } from './programCard';
 type ProgramCard = {
   title: string;
   image: string;
+  link: string;
 };
 
 const programCards: ProgramCard[] = [
   {
     title: 'Нови пројекти',
     image: '/program/infrastruktura.png',
+    link: 'infrastruktura',
   },
-  { title: 'Рад локалне самоуправе', image: '/program/samouprava.png' },
-  { title: 'Брига о деци и младима', image: '/program/mladi.png' },
-  { title: 'Заштита животне средине', image: '/program/sredina.png' },
-  { title: 'Развој туризма и спорта', image: '/program/sport.png' },
-  { title: 'Већа улагања у културу', image: '/program/kultura.png' },
+  {
+    title: 'Рад локалне самоуправе',
+    image: '/program/samouprava.png',
+    link: 'samouprava',
+  },
+  {
+    title: 'Брига о деци и младима',
+    image: '/program/mladi.png',
+    link: 'mladi',
+  },
+  {
+    title: 'Заштита животне средине',
+    image: '/program/sredina.png',
+    link: 'sredina',
+  },
+  {
+    title: 'Развој туризма и спорта',
+    image: '/program/sport.png',
+    link: 'turizam',
+  },
+  {
+    title: 'Већа улагања у културу',
+    image: '/program/kultura.png',
+    link: 'kultura',
+  },
 ];
 
 export function ProgramSection() {
@@ -28,8 +50,8 @@ export function ProgramSection() {
             <h2 className='text-primary text-4xl lg:text-5xl font-extrabold text-center lg:text-left lg:leading-tight'>
               ПРОГРАМ ЗА ЧУКАРИЦУ НА ПРВОМ МЕСТУ
             </h2>
-            <Button asChild>
-              <Link href='/' className='font-extrabold'>
+            <Button asChild className='w-full lg:w-fit'>
+              <Link href='/program' className='font-extrabold'>
                 Прочитај више
               </Link>
             </Button>

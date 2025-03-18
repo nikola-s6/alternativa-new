@@ -50,7 +50,7 @@ export function NewsSection() {
     <section className='bg-white pb-12'>
       <div className='bg-destructive py-6'>
         <h2 className='text-4xl font-extrabold text-center text-white'>
-          Вести
+          ВЕСТИ
         </h2>
       </div>
       <div className='container mx-auto px-4 py-8'>
