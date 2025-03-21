@@ -15,20 +15,22 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Пеђа Милосављевић',
     position: 'Председник покрета',
-    image: '/team/pedja-milosavljevic.jpg',
+    image: '/team/pm.jpg',
   },
   {
     name: 'Филип Калмаревић',
     position: 'Генерални секретар',
-    image: '/team/filip-kalmarevic.jpg',
+    image: '/team/fk.jpg',
   },
   {
     name: 'Борис Поседи',
     position: 'Извршни одбор',
+    image: '/team/bp.jpg',
   },
   {
     name: 'Тања Бакић',
     position: 'Маркетинг тим',
+    image: '/team/tb.jpg',
   },
 ];
 
