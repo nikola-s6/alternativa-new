@@ -20,6 +20,16 @@ export const menuItems: MenuItem[] = [
 
 export const socialItems: SocialItem[] = [
   {
+    name: 'Youtube',
+    icon: siYoutube,
+    href: 'https://www.youtube.com/@alternativacentar',
+  },
+  {
+    name: 'Instagram',
+    icon: siInstagram,
+    href: 'https://www.instagram.com/alternativacentar?igsh=MTFsdnZwejE5aWVmMA%3D%3D',
+  },
+  {
     name: 'Facebook',
     icon: siFacebook,
     href: 'https://www.facebook.com/alternativacentar?mibextid=ZbWKwL',
@@ -28,15 +38,5 @@ export const socialItems: SocialItem[] = [
     name: 'X',
     icon: siX,
     href: 'https://x.com/alt_centar?t=VXmr8B1fE3Hu37JZX3AZ-w&s=09',
-  },
-  {
-    name: 'Instagram',
-    icon: siInstagram,
-    href: 'https://www.instagram.com/alternativacentar?igsh=MTFsdnZwejE5aWVmMA%3D%3D',
-  },
-  {
-    name: 'Youtube',
-    icon: siYoutube,
-    href: 'https://www.youtube.com/@alternativacentar',
   },
 ];
