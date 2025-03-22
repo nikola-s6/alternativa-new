@@ -40,3 +40,46 @@ export const socialItems: SocialItem[] = [
     href: 'https://x.com/alt_centar?t=VXmr8B1fE3Hu37JZX3AZ-w&s=09',
   },
 ];
+
+export const neighborhoods = [
+  {
+    value: 'banovoBrdo',
+    title: 'Баново Брдо',
+  },
+  {
+    value: 'velikaMostanica',
+    title: 'Велика Моштаница',
+  },
+  {
+    value: 'zarkovo',
+    title: 'Жарково',
+  },
+  {
+    value: 'zeleznik',
+    title: 'Железник',
+  },
+  {
+    value: 'ostruznica',
+    title: 'Остружница',
+  },
+  {
+    value: 'rusanj',
+    title: 'Рушањ',
+  },
+  {
+    value: 'sremcica',
+    title: 'Сремчица',
+  },
+  {
+    value: 'umka',
+    title: 'Умка',
+  },
+  {
+    value: 'cerak',
+    title: 'Церак',
+  },
+  {
+    value: 'cukarickaPadina',
+    title: 'Чукаричка Падина',
+  },
+];

@@ -9,49 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-
-const neighborhoods = [
-  {
-    value: 'banovoBrdo',
-    title: 'Баново Брдо',
-  },
-  {
-    value: 'velikaMostanica',
-    title: 'Велика Моштаница',
-  },
-  {
-    value: 'zarkovo',
-    title: 'Жарково',
-  },
-  {
-    value: 'zeleznik',
-    title: 'Железник',
-  },
-  {
-    value: 'ostruznica',
-    title: 'Остружница',
-  },
-  {
-    value: 'rusanj',
-    title: 'Рушањ',
-  },
-  {
-    value: 'sremcica',
-    title: 'Сремчица',
-  },
-  {
-    value: 'umka',
-    title: 'Умка',
-  },
-  {
-    value: 'cerak',
-    title: 'Церак',
-  },
-  {
-    value: 'cukarickaPadina',
-    title: 'Чукаричка Падина',
-  },
-];
+import { neighborhoods } from '@/config/site';
 
 export function MapSection() {
   const [selectedNeighborhood, setSelectedNeighborhood] = useState<
