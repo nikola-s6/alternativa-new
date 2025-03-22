@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 // This would typically come from environment variables
 const EMAIL_USER = process.env.EMAIL_USER;
 const EMAIL_PASS = process.env.EMAIL_PASS;
-const EMAIL_TO = process.env.EMAIL_TO;
+// const EMAIL_TO = process.env.EMAIL_TO;
 
 // Create a transporter object
 const transporter = nodemailer.createTransport({
@@ -21,9 +21,6 @@ const transporter = nodemailer.createTransport({
 
 export async function POST(request: NextRequest) {
   try {
-    console.log(EMAIL_USER);
-    console.log(EMAIL_PASS);
-    console.log(EMAIL_TO);
     // Parse the request body
     const body = await request.json();
     const { name, email, phone, neighborhood, comment } = body;
