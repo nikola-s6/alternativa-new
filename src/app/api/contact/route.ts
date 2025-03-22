@@ -50,7 +50,6 @@ export async function POST(request: NextRequest) {
       ${neighborhood ? `Mesna zajednica: ${neighborhoodTitle || neighborhood}` : ''}
       ${comment ? `Dodatni komentar ili pitanje: ${comment}` : ''}
       --------------------------
-      Poslato: ${new Date().toLocaleString()}
     `;
 
     // Email options

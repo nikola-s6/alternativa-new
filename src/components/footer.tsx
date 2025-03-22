@@ -48,7 +48,7 @@ const Footer = () => {
 
             {/* Button */}
             <Button asChild variant='custom'>
-              <Link className='font-extrabold mt-2 lg:mt-0' href='/'>
+              <Link className='font-extrabold mt-2 lg:mt-0' href='/contact'>
                 Прикључи се
               </Link>
             </Button>
