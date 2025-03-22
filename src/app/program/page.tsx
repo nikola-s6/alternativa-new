@@ -1,3 +1,4 @@
+import { BookPreview } from '@/components/BookPreview';
 import SecondaryHeader from '@/components/SecondaryHeader';
 import { Button } from '@/components/ui/button';
 
@@ -19,7 +20,7 @@ export default function Program() {
           београдских општина са огромним људским потенцијалима. Чукарица према
           последњем попису има преко 170.000 становника што је чини једном од
           најнасељенијих општина у Републици Србији. На територији наше општине
-          налазе се Кошутњак, Макишка и Липовачка шума, ако и Ада Циганлија која
+          налазе се Кошутњак, Макишка и Липовачка шума, као и Ада Циганлија која
           спада међу најпосећенија одмаралишта у Београду.
         </p>
         <p className='text-xl text-primary mb-6 text-justify'>
@@ -31,16 +32,19 @@ export default function Program() {
           Чукарицом цео мандат, односно пуне четири године.
         </p>
         <p className='text-xl text-primary text-justify'>
-          Наш примарни циљ биће одржавање оревремених локалних избора на којима
+          Наш примарни циљ биће одржавање превремених локалних избора на којима
           ћемо тражити поверење грађана за идеје које у овом програму
           кандидујемо. Циљ нашег програма јесте покретање Чукарице са мртве
           тачке, а оно што нас издваја јесте озбиљан тим људи који је спреман да
-          преузме пуну одговорност за вођење општине, ако и да полаже рачуне
+          преузме пуну одговорност за вођење општине, као и да полаже рачуне
           грађанима.
         </p>
       </div>
       <div className='flex flex-row justify-center'>
-        <a href='/files/program.pdf' download='program.pdf'>
+        <a
+          href='/files/program.pdf'
+          download='Програм - Чукарица на првом месту.pdf'
+        >
           <Button className='text-2xl font-bold' variant='destructive'>
             Преузми програм
           </Button>
@@ -53,7 +57,7 @@ export default function Program() {
             id='infrastruktura'
             className='text-4xl font-bold text-primary mb-6 text-left'
           >
-            1. НОВИ ИНФРАСТУКТУРНИ ПРОЈЕКТИ
+            1. НОВИ ИНФРАСТРУКТУРНИ ПРОЈЕКТИ
           </h2>
           <p className='text-xl text-primary mb-6 italic'>
             Чукарици си потребни нови инфраструктурни пројекти који ће моћи да
@@ -66,7 +70,7 @@ export default function Program() {
           </p>
           <p className='text-xl text-primary mb-6 before:content-["б)"] before:font-extrabold '>
             {' '}
-            канализацију и здраву пијаћу воду верујемо да мора имати сваки
+            Канализацију и здраву пијаћу воду верујемо да мора имати сваки
             становник наше општине. Изградњом нове канализационе мреже и заменом
             старих водоводних цеви решићемо овај вишедеценијски проблем;
           </p>
@@ -146,7 +150,7 @@ export default function Program() {
           <p className='text-xl text-primary mb-6 before:content-["а)"] before:font-extrabold'>
             {' '}
             Наш циљ биће да свака школа има своју спортску секцију за фудбал,
-            кошарку, одбојку, а по могућству и пливање, ако и глумачку и хорску
+            кошарку, одбојку, а по могућству и пливање, као и глумачку и хорску
             секцију;
           </p>
           <p className='text-xl text-primary mb-6 before:content-["б)"] before:font-extrabold'>
@@ -168,8 +172,8 @@ export default function Program() {
           </p>
           <p className='text-xl text-primary mb-10 before:content-["д)"] before:font-extrabold'>
             {' '}
-            реконструисаћемо постојеће и радити на изградњи нових фискултурних
-            сала и бауена у нашим школама.
+            Реконструисаћемо постојеће и радити на изградњи нових фискултурних
+            сала и базена у нашим школама.
           </p>
           <h2
             id='sredina'
@@ -189,7 +193,7 @@ export default function Program() {
           </p>
           <p className='text-xl text-primary mb-6 before:content-["б)"] before:font-extrabold'>
             {' '}
-            Субвенционисаћемо прелазакј са индивидуалних ложишта на еколошки
+            Субвенционисаћемо прелазак са индивидуалних ложишта на еколошки
             прихватљивије изворе енергије;
           </p>
           <p className='text-xl text-primary mb-10 before:content-["в)"] before:font-extrabold'>
@@ -235,12 +239,12 @@ export default function Program() {
           </p>
           <p className='text-xl text-primary mb-6 before:content-["а)"] before:font-extrabold'>
             {' '}
-            Активно ћемо радити на промоцији аутентичних културнихманифестација
+            Активно ћемо радити на промоцији аутентичних културних манифестација
             локалног карактера, као што су Дани Сремчице и Улица отвореног срца;
           </p>
           <p className='text-xl text-primary mb-6 before:content-["б)"] before:font-extrabold'>
             {' '}
-            Значајно ћемо радити на улагању у развој културних садржаја на
+            Значајно ћемо радити на улагању и развој културних садржаја на
             Чукарици, као што су галерије и позоришта;
           </p>
           <p className='text-xl text-primary mb-10 before:content-["в)"] before:font-extrabold'>
@@ -250,13 +254,17 @@ export default function Program() {
           </p>
         </div>
         <div className='flex flex-row justify-center'>
-          <a href='/files/program.pdf' download='program.pdf'>
+          <a
+            href='/files/program.pdf'
+            download='Програм - Чукарица на првом месту.pdf'
+          >
             <Button className='text-2xl font-bold' variant='destructive'>
               Преузми програм
             </Button>
           </a>
         </div>
       </div>
+      <BookPreview />
     </div>
   );
 }

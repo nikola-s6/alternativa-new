@@ -91,6 +91,15 @@ body {
   }
 }
 
+@layer base {
+
+  ul,
+  ol {
+    list-style: revert;
+    list-style-type: revert-layer;
+  }
+}
+
 h2 {
   scroll-margin-top: 140px;
   scroll-snap-margin-top: 140px;

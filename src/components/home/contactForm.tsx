@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
   name: z.string().nonempty('Поље не сме бити празно'),
@@ -25,6 +26,8 @@ const formSchema = z.object({
 });
 
 export function ContactForm() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,8 +38,13 @@ export function ContactForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // Handle form submission here
+    const params = new URLSearchParams({
+      name: values.name,
+      email: values.email,
+      phone: values.phone,
+    });
+
+    router.push(`contact?${params.toString()}`);
   }
 
   return (

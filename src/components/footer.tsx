@@ -35,12 +35,12 @@ const Footer = () => {
       <div className='container mx-auto px-4 pt-24 pb-12'>
         <div className='flex flex-col items-center justify-center'>
           {/* Navigation and Button container */}
-          <div className='flex flex-wrap justify-center gap-8'>
+          <div className='flex flex-wrap justify-center lg:gap-8'>
             {menuItems.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
-                className='text-xl font-medium hover:text-gray-300'
+                className='text-xl font-medium hover:text-gray-300 lg:w-fit w-1/3 text-center'
               >
                 {item.name}
               </Link>
@@ -48,7 +48,7 @@ const Footer = () => {
 
             {/* Button */}
             <Button asChild variant='custom'>
-              <Link className='font-extrabold' href='/'>
+              <Link className='font-extrabold mt-2 lg:mt-0' href='/'>
                 Прикључи се
               </Link>
             </Button>
