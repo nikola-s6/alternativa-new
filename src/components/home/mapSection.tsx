@@ -21,7 +21,6 @@ export function MapSection() {
 
   const handleNeighborhoodSelect = (value: string) => {
     setSelectedNeighborhood(value);
-    // todo: navigate to page here
   };
 
   useEffect(() => {
@@ -74,7 +73,17 @@ export function MapSection() {
                 ))}
               </SelectContent>
             </Select>
-            <Button className='w-full font-extrabold'>Детаљи</Button>
+            <a
+              className='w-full'
+              href={
+                '/mz' +
+                (selectedNeighborhood
+                  ? `?mesnaZajednica=${selectedNeighborhood}`
+                  : '')
+              }
+            >
+              <Button className='w-full font-extrabold'>Детаљи</Button>
+            </a>
           </div>
           <div className='w-1/2 lg:w-1/4 relative'>
             <svg

@@ -11,14 +11,9 @@ type ProgramCardProps = {
 };
 
 export function ProgramCard({ title, image, link }: ProgramCardProps) {
-  const handleClick = () => { };
-
   return (
     <Link href={'/program#' + link}>
-      <div
-        className='bg-gray-100 rounded-lg overflow-hidden shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 cursor-pointer'
-        onClick={handleClick}
-      >
+      <div className='bg-gray-100 rounded-lg overflow-hidden shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 cursor-pointer'>
         <div className='relative h-40 overflow-hidden'>
           <Image
             src={image || '/placeholder.svg'}

@@ -8,10 +8,7 @@ export default function Program() {
       <SecondaryHeader title='програм' />
 
       <div className='container mx-auto px-4 py-16 sm:px-6 lg:px-8'>
-        <h2
-          id='infrastruktura'
-          className='text-4xl font-extrabold text-primary text-center mb-6'
-        >
+        <h2 className='text-4xl font-extrabold text-primary text-center mb-6'>
           ЧУКАРИЦА НА ПРВОМ МЕСТУ
         </h2>
         <p className='text-xl text-primary mb-6 text-justify'>
@@ -28,7 +25,7 @@ export default function Program() {
           политику развоја због чега наша општина стагнира на свим пољима. На
           последњним локалним изборима владајућа коалиција окулљена око СНС-а и
           СПС-а добила је рекордно мали број гласова на најнижу излазност у
-          истирији Чукарице. Упдаво зато, власт нема легитимитет да управља
+          истирији Чукарице. Управо зато, власт нема легитимитет да управља
           Чукарицом цео мандат, односно пуне четири године.
         </p>
         <p className='text-xl text-primary text-justify'>
@@ -80,7 +77,13 @@ export default function Program() {
             путева и пратеће инфраструктуре и тако значајно допринети
             повезаности наше општине;
           </p>
-          <div className='text-xl text-primary mb-10 before:content-["г)"] before:font-extrabold'>
+          <p className='text-xl text-primary mb-6 before:content-["г)"] before:font-extrabold '>
+            {' '}
+            Изградњом мреже бициклистичких стаза у дужини од више десетина
+            километара повезаћемо рубна насеља са постојећим стазама и тако
+            обезбедити добру и безбедну алтернативу јавном градском превозу;
+          </p>
+          <div className='text-xl text-primary mb-10 before:content-["д)"] before:font-extrabold'>
             {' '}
             Покренућемо бројне иницијативе у сврху:
             <section>
@@ -89,7 +92,7 @@ export default function Program() {
                 - Реновирања Београдског Хиподрома;
               </p>
               <p className='pl-10 text-left'>
-                - Издградње шеталишта од умке до Аде;
+                - Издградње шеталишта од Умке до Аде;
               </p>
               <p className='pl-10 text-left'>
                 - Обнове стаза на Кошутњаку и Липовици.
@@ -129,8 +132,8 @@ export default function Program() {
             {' '}
             Организоваћемо редовно бесплатне семинаре за све заинтересоване
             грађане на којима ће људи моћи да се информишу о свим тренутним
-            административним и пореским оптерећењима, ако и о врстама државних
-            субвенција, олакшица, и јавним конкурсима;
+            административним и пореским оптерећењима, као и о врстама државних
+            субвенција, олакшица и јавним конкурсима;
           </p>
           <p className='text-xl text-primary mb-10 before:content-["д)"] before:font-extrabold '>
             {' '}
@@ -231,7 +234,7 @@ export default function Program() {
             id='kultura'
             className='text-4xl font-bold text-primary mb-6 text-left'
           >
-            6. БЕЋА УЛАГАЊА У КУЛТУРУ
+            6. ВЕЋА УЛАГАЊА У КУЛТУРУ
           </h2>
           <p className='text-xl text-primary mb-6 italic'>
             Као будућа власт нећемо занемарити значај улагања у развој културних
