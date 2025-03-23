@@ -42,7 +42,10 @@ export default function Program() {
           href='/files/program.pdf'
           download='Програм - Чукарица на првом месту.pdf'
         >
-          <Button className='text-2xl font-bold' variant='destructive'>
+          <Button
+            className='text-lg lg:text-xl font-bold'
+            variant='destructive'
+          >
             Преузми програм
           </Button>
         </a>
@@ -261,7 +264,10 @@ export default function Program() {
             href='/files/program.pdf'
             download='Програм - Чукарица на првом месту.pdf'
           >
-            <Button className='text-2xl font-bold' variant='destructive'>
+            <Button
+              className='text-lg lg:text-xl font-bold'
+              variant='destructive'
+            >
               Преузми програм
             </Button>
           </a>
