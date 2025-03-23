@@ -20,12 +20,8 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
-  email: z.string().email({
-    message: 'Унесите исправну имејл адресу.',
-  }),
-  password: z.string().min(6, {
-    message: 'Лозинка мора имати најмање 6 карактера.',
-  }),
+  username: z.string().nonempty('Обавезно поље'),
+  password: z.string().nonempty('Обавезно поље'),
 });
 
 export default function LoginForm() {
@@ -36,17 +32,27 @@ export default function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
+      username: '',
       password: '',
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
-
     try {
-      // This would be replaced with your actual authentication logic
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to send email');
+      }
 
       // Simulate successful login
       toast({
@@ -55,7 +61,7 @@ export default function LoginForm() {
       });
 
       // Redirect to home page after successful login
-      router.push('/');
+      router.push('/admin');
     } catch (error) {
       toast({
         title: 'Грешка при пријављивању',
@@ -100,13 +106,13 @@ export default function LoginForm() {
               >
                 <FormField
                   control={form.control}
-                  name='email'
+                  name='username'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Имејл адреса</FormLabel>
+                      <FormLabel>Корисничко име</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder='ваш@имејл.com'
+                          placeholder='Унесите корисничко име'
                           {...field}
                           disabled={isLoading}
                           className='border-gray-300'
@@ -144,28 +150,10 @@ export default function LoginForm() {
                 </Button>
               </form>
             </Form>
-
-            <div className='mt-6 text-center'>
-              <Link
-                href='/forgot-password'
-                className='text-sm text-primary hover:underline'
-              >
-                Заборавили сте лозинку?
-              </Link>
-            </div>
           </div>
 
           {/* Footer */}
           <div className='bg-gray-50 p-6 border-t border-gray-200 text-center'>
-            <p className='text-gray-600 text-sm'>
-              Немате налог?{' '}
-              <Link
-                href='/register'
-                className='text-destructive font-semibold hover:underline'
-              >
-                Региструјте се
-              </Link>
-            </p>
             <Link
               href='/'
               className='block mt-4 text-primary hover:underline text-sm'
