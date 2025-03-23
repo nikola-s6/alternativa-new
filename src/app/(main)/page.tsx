@@ -7,13 +7,13 @@ import { YouTubeSection } from '@/components/home/youtube';
 
 export default function Home() {
   return (
-    <main>
+    <>
       <HomeSection />
       <TeamSection />
       <MapSection />
       <YouTubeSection />
       <ProgramSection />
       <NewsSection />
-    </main>
+    </>
   );
 }
