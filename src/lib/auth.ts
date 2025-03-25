@@ -10,3 +10,9 @@ export async function verifyPassword(
 ): Promise<boolean> {
   return await compare(password, hashedPassword);
 }
+
+export function generateSecret() {
+  return new TextEncoder().encode(
+    process.env.JWT_SECRET || 'jwtsecredalternativa'
+  );
+}

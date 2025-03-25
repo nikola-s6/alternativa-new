@@ -1,10 +1,8 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { cookies } from 'next/headers';
 import { prisma } from '@/lib/prisma';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
+import { SignJWT } from 'jose';
+import { generateSecret } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
   try {
@@ -46,7 +44,13 @@ export async function POST(request: NextRequest) {
 
     const feUser = { userId: user.id, username: user.username };
 
-    const token = jwt.sign(feUser, JWT_SECRET, { expiresIn: '3h' });
+    // const token = jwt.sign(feUser, JWT_SECRET, { expiresIn: '3h' });
+    const token = await new SignJWT(feUser)
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('3h')
+      .sign(generateSecret());
+
+    console.log(token, 'login token');
     const response = NextResponse.json({
       success: true,
       message: 'Sucesfully logged in!',
