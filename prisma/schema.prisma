@@ -18,3 +18,9 @@ model AlternativaUsers {
   username String @unique
   password String
 }
+
+model YoutubeVideo {
+  id        String   @id
+  title     String
+  createdAt DateTime @default(now())
+}

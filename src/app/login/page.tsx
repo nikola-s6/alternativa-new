@@ -58,10 +58,11 @@ export default function LoginForm() {
       toast({
         title: 'Успешно сте се пријавили',
         description: 'Добродошли назад!',
+        variant: 'confirm',
       });
 
       // Redirect to home page after successful login
-      router.push('/admin');
+      router.push('/admin/dashboard');
     } catch (error) {
       toast({
         title: 'Грешка при пријављивању',
