@@ -6,6 +6,7 @@ import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
+import { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Bold,
@@ -23,6 +24,50 @@ import {
   AlignRight,
   AlignJustify,
 } from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+
+// Custom extension for resizable images
+const ResizableImage = Image.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      width: {
+        default: '100%',
+        renderHTML: (attributes) => {
+          return {
+            width: attributes.width,
+          };
+        },
+      },
+      height: {
+        default: 'auto',
+        renderHTML: (attributes) => {
+          return {
+            height: attributes.height,
+          };
+        },
+      },
+      alignment: {
+        default: 'center',
+        renderHTML: (attributes) => {
+          return {
+            class: `image-align-${attributes.alignment}`,
+          };
+        },
+      },
+    };
+  },
+});
 
 interface TiptapEditorProps {
   content: string;
@@ -35,10 +80,15 @@ export default function TiptapEditor({
   onChange,
   placeholder = 'Start writing...',
 }: TiptapEditorProps) {
+  const [imageUrl, setImageUrl] = useState('');
+  const [imageWidth, setImageWidth] = useState('100%');
+  const [imageAlignment, setImageAlignment] = useState('center');
+  const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Image,
+      ResizableImage,
       Link.configure({
         openOnClick: false,
       }),
@@ -57,18 +107,31 @@ export default function TiptapEditor({
     },
   });
 
-  if (!editor) {
-    return null;
-  }
+  const addImage = useCallback(() => {
+    if (!editor || !imageUrl) return;
 
-  const addImage = () => {
-    const url = window.prompt('Enter the URL of the image:');
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
-  };
+    // Insert image with specified alignment and width
+    editor
+      .chain()
+      .focus()
+      .setImage({
+        src: imageUrl,
+        // @ts-expect-error works
+        alignment: imageAlignment,
+        width: imageWidth,
+      })
+      .run();
+
+    // Reset form
+    setImageUrl('');
+    setImageWidth('100%');
+    setImageAlignment('center');
+    setIsImageDialogOpen(false);
+  }, [editor, imageUrl, imageAlignment, imageWidth]);
 
   const setLink = () => {
+    if (!editor) return;
+
     const previousUrl = editor.getAttributes('link').href;
     const url = window.prompt('Enter the URL:', previousUrl);
 
@@ -86,6 +149,10 @@ export default function TiptapEditor({
     // update link
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   };
+
+  if (!editor) {
+    return null;
+  }
 
   return (
     <div className='border border-gray-300 rounded-md overflow-hidden'>
@@ -221,9 +288,71 @@ export default function TiptapEditor({
         >
           <LinkIcon className='h-4 w-4' />
         </Button>
-        <Button type='button' variant='ghost' size='sm' onClick={addImage}>
-          <ImageIcon className='h-4 w-4' />
-        </Button>
+
+        <Dialog open={isImageDialogOpen} onOpenChange={setIsImageDialogOpen}>
+          <DialogTrigger asChild>
+            <Button type='button' variant='ghost' size='sm'>
+              <ImageIcon className='h-4 w-4' />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className='sm:max-w-[425px]'>
+            <DialogHeader>
+              <DialogTitle>Insert Image</DialogTitle>
+            </DialogHeader>
+            <div className='grid gap-4 py-4'>
+              <div className='grid grid-cols-4 items-center gap-4'>
+                <Label htmlFor='imageUrl' className='text-right'>
+                  Image URL
+                </Label>
+                <Input
+                  id='imageUrl'
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                  placeholder='https://example.com/image.jpg'
+                  className='col-span-3'
+                />
+              </div>
+              <div className='grid grid-cols-4 items-center gap-4'>
+                <Label htmlFor='imageWidth' className='text-right'>
+                  Width
+                </Label>
+                <Input
+                  id='imageWidth'
+                  value={imageWidth}
+                  onChange={(e) => setImageWidth(e.target.value)}
+                  placeholder='100% or 500px'
+                  className='col-span-3'
+                />
+              </div>
+              <div className='grid grid-cols-4 items-center gap-4'>
+                <Label className='text-right'>Alignment</Label>
+                <RadioGroup
+                  value={imageAlignment}
+                  onValueChange={setImageAlignment}
+                  className='col-span-3 flex space-x-4'
+                >
+                  <div className='flex items-center space-x-2'>
+                    <RadioGroupItem value='left' id='left' />
+                    <Label htmlFor='left'>Left</Label>
+                  </div>
+                  <div className='flex items-center space-x-2'>
+                    <RadioGroupItem value='center' id='center' />
+                    <Label htmlFor='center'>Center</Label>
+                  </div>
+                  <div className='flex items-center space-x-2'>
+                    <RadioGroupItem value='right' id='right' />
+                    <Label htmlFor='right'>Right</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type='submit' onClick={addImage} disabled={!imageUrl}>
+                Insert Image
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         {/* Divider */}
         <div className='w-px h-6 bg-gray-300 mx-1'></div>

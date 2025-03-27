@@ -58,7 +58,75 @@
   text-align: justify;
 }
 
+/* Image styles */
 .ProseMirror img {
   max-width: 100%;
   height: auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Image alignment */
+.ProseMirror img.image-align-left {
+  float: left;
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+.ProseMirror img.image-align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1em;
+}
+
+.ProseMirror img.image-align-right {
+  float: right;
+  margin-left: 1em;
+  margin-bottom: 1em;
+}
+
+/* Image resize handles */
+.ProseMirror .resize-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #1a73e8;
+  border-radius: 50%;
+}
+
+.ProseMirror .resize-handle.top-left {
+  top: -5px;
+  left: -5px;
+  cursor: nwse-resize;
+}
+
+.ProseMirror .resize-handle.top-right {
+  top: -5px;
+  right: -5px;
+  cursor: nesw-resize;
+}
+
+.ProseMirror .resize-handle.bottom-left {
+  bottom: -5px;
+  left: -5px;
+  cursor: nesw-resize;
+}
+
+.ProseMirror .resize-handle.bottom-right {
+  bottom: -5px;
+  right: -5px;
+  cursor: nwse-resize;
+}
+
+/* Selected image */
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 2px solid #1a73e8;
+}
+
+/* Clear floats after images */
+.ProseMirror p:after {
+  content: '';
+  display: table;
+  clear: both;
 }
