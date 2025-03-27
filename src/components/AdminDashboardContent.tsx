@@ -5,17 +5,18 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Trash2, LogOut, Edit, Plus, Trash } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
   SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import TiptapEditor from '@/components/TipTapEditor';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Trash2, LogOut, Plus, Edit, Trash } from 'lucide-react';
+import TiptapEditor from '@/components/TipTapEditor';
+import '../app/editor-styles.css'; // Import the editor styles
 
 // Define the Video type
 type Video = {
@@ -24,6 +25,7 @@ type Video = {
   youtubeId: string;
 };
 
+// Define the NewsArticle type
 type NewsArticle = {
   id: string;
   title: string;
@@ -35,15 +37,13 @@ type NewsArticle = {
 };
 
 export default function AdminDashboardContent() {
-  // youtube videos state
+  // Video state
   const [videos, setVideos] = useState<Video[]>([]);
   const [newVideo, setNewVideo] = useState<Video>({ title: '', youtubeId: '' });
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const { toast } = useToast();
-  const router = useRouter();
 
-  // news state
+  // News state
   const [newsArticles, setNewsArticles] = useState<NewsArticle[]>([]);
   const [isLoadingNews, setIsLoadingNews] = useState(true);
   const [isSavingNews, setIsSavingNews] = useState(false);
@@ -58,6 +58,9 @@ export default function AdminDashboardContent() {
     published: false,
   });
 
+  const { toast } = useToast();
+  const router = useRouter();
+
   // Fetch videos on component mount
   useEffect(() => {
     const fetchVideos = async () => {
@@ -65,6 +68,7 @@ export default function AdminDashboardContent() {
         const response = await fetch('/api/videos');
 
         if (!response.ok) {
+          // If unauthorized, the middleware should redirect, but just in case
           if (response.status === 401) {
             router.push('/');
             return;
@@ -92,7 +96,7 @@ export default function AdminDashboardContent() {
   useEffect(() => {
     const fetchNewsArticles = async () => {
       try {
-        const response = await fetch('/api/admin/news');
+        const response = await fetch('/api/news');
 
         if (!response.ok) {
           if (response.status === 401) {
@@ -148,19 +152,6 @@ export default function AdminDashboardContent() {
       fetchNewsArticle();
     }
   }, [selectedNewsId, newsMode, toast]);
-
-  // Reset form when changing news mode
-  useEffect(() => {
-    if (newsMode === 'create') {
-      setNewsForm({
-        title: '',
-        content: '',
-        image: '',
-        published: false,
-      });
-      setSelectedNewsId('');
-    }
-  }, [newsMode]);
 
   // Handle adding a new video
   const handleAddVideo = async () => {
@@ -423,7 +414,6 @@ export default function AdminDashboardContent() {
       toast({
         title: 'Успешно одјављивање',
         description: 'Успешно сте се одјавили.',
-        variant: 'confirm',
       });
     } catch (error) {
       toast({
@@ -433,6 +423,19 @@ export default function AdminDashboardContent() {
       });
     }
   };
+
+  // Reset form when changing news mode
+  useEffect(() => {
+    if (newsMode === 'create') {
+      setNewsForm({
+        title: '',
+        content: '',
+        image: '',
+        published: false,
+      });
+      setSelectedNewsId('');
+    }
+  }, [newsMode]);
 
   return (
     <main>
@@ -462,7 +465,7 @@ export default function AdminDashboardContent() {
       <section className='py-16 bg-white'>
         <div className='container mx-auto px-4'>
           <div className='max-w-4xl mx-auto'>
-            {/* Youtube videos section */}
+            {/* YouTube Videos Section */}
             <div className='bg-primary rounded-lg shadow-lg border-8 border-destructive mb-16'>
               <div className='w-full bg-destructive p-8'>
                 <h2 className='text-4xl font-bold text-white mb-6 text-center'>
@@ -609,6 +612,7 @@ export default function AdminDashboardContent() {
                 </div>
               </div>
             </div>
+
             {/* News Management Section */}
             <div className='bg-primary rounded-lg shadow-lg border-8 border-destructive'>
               <div className='w-full bg-destructive p-8'>
@@ -708,6 +712,7 @@ export default function AdminDashboardContent() {
 
                       <div className='flex items-center space-x-2'>
                         <Checkbox
+                          className='bg-white checked:bg-destructive'
                           id='newsPublished'
                           checked={newsForm.published}
                           onCheckedChange={(checked) =>

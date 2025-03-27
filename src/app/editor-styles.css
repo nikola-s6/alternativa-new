@@ -1,0 +1,64 @@
+/* Add this to your globals.css or create a new CSS file and import it */
+
+/* Editor content styling */
+.ProseMirror {
+  min-height: 400px;
+  height: 100%;
+  outline: none;
+}
+
+.ProseMirror p {
+  margin-bottom: 1em;
+}
+
+.ProseMirror h1 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror h2 {
+  font-size: 1.25em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.ProseMirror ul li {
+  list-style-type: disc;
+}
+
+.ProseMirror ol li {
+  list-style-type: decimal;
+}
+
+/* Alignment styles */
+.ProseMirror .is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+.ProseMirror p[style*='text-align: center'] {
+  text-align: center;
+}
+
+.ProseMirror p[style*='text-align: right'] {
+  text-align: right;
+}
+
+.ProseMirror p[style*='text-align: justify'] {
+  text-align: justify;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+}
