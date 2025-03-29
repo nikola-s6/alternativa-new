@@ -1,11 +1,28 @@
-import { Suspense } from 'react';
+'use client';
+
+import { Suspense, useEffect, useState } from 'react';
 import NewsDetailContent from '@/components/NewsDetailsContent';
 import { Skeleton } from '@/components/ui/skeleton';
+import { PageLoader } from '@/components/ui/page-loader';
 
-export default function NewsDetailPage({ params }: { params: { id: string } }) {
+export default function NewsDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const [id, setId] = useState('');
+
+  useEffect(() => {
+    const getId = async () => {
+      const p = await params;
+      setId(p.id);
+    };
+    getId();
+  }, [params]);
+
   return (
     <Suspense fallback={<NewsDetailSkeleton />}>
-      <NewsDetailContent id={params.id} />
+      {id ? <NewsDetailContent id={id} /> : <PageLoader />}
     </Suspense>
   );
 }

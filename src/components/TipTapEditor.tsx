@@ -42,6 +42,118 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fileToBase64, validateImage, compressImage } from '@/lib/image-utils';
 import { useToast } from '@/hooks/use-toast';
 
+// Custom extension for resizable images with better attribute handling
+const CustomImage = Image.extend({
+  addAttributes() {
+    return {
+      src: {
+        default: null,
+      },
+      alt: {
+        default: null,
+      },
+      title: {
+        default: null,
+      },
+      width: {
+        default: null,
+        parseHTML: (element) => {
+          // Try to get width from style attribute first
+          const style = element.getAttribute('style');
+          if (style) {
+            const widthMatch = style.match(/width:\s*([^;]+)/);
+            if (widthMatch && widthMatch[1]) {
+              return widthMatch[1];
+            }
+          }
+
+          // Then try width attribute
+          const width = element.getAttribute('width');
+          if (width) {
+            return width;
+          }
+
+          return null;
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.width) {
+            return {};
+          }
+
+          return {
+            width: attributes.width,
+            style: `width: ${attributes.width};`,
+          };
+        },
+      },
+      height: {
+        default: null,
+        parseHTML: (element) => {
+          // Try to get height from style attribute first
+          const style = element.getAttribute('style');
+          if (style) {
+            const heightMatch = style.match(/height:\s*([^;]+)/);
+            if (heightMatch && heightMatch[1]) {
+              return heightMatch[1];
+            }
+          }
+
+          // Then try height attribute
+          const height = element.getAttribute('height');
+          if (height) {
+            return height;
+          }
+
+          return null;
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.height) {
+            return {};
+          }
+
+          return {
+            height: attributes.height,
+            style: `height: ${attributes.height};`,
+          };
+        },
+      },
+      class: {
+        default: null,
+        parseHTML: (element) => element.getAttribute('class'),
+        renderHTML: (attributes) => {
+          if (!attributes.class) {
+            return {};
+          }
+
+          return {
+            class: attributes.class,
+          };
+        },
+      },
+      style: {
+        default: null,
+        parseHTML: (element) => element.getAttribute('style'),
+        renderHTML: (attributes) => {
+          if (!attributes.style) {
+            return {};
+          }
+
+          return {
+            style: attributes.style,
+          };
+        },
+      },
+    };
+  },
+  parseHTML() {
+    return [
+      {
+        tag: 'img[src]',
+      },
+    ];
+  },
+});
+
 interface TiptapEditorProps {
   content: string;
   onChange: (content: string) => void;
@@ -74,12 +186,82 @@ export default function TiptapEditor({
     }
   }, [content, initialContent]);
 
+  // Add custom CSS to ensure editor matches the rendered view
+  useEffect(() => {
+    // Add custom CSS to ensure images in the editor match the rendered view
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .ProseMirror img {
+        max-width: 100%;
+        height: auto;
+      }
+      .ProseMirror img.image-align-left {
+        float: left;
+        margin-right: 1em;
+        margin-bottom: 1em;
+      }
+      .ProseMirror img.image-align-center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 1em;
+      }
+      .ProseMirror img.image-align-right {
+        float: right;
+        margin-left: 1em;
+        margin-bottom: 1em;
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Add custom CSS for better heading handling
+    const style = document.createElement('style');
+    style.innerHTML = `
+    .ProseMirror h1.tiptap-heading {
+      font-size: 2em;
+      font-weight: bold;
+      margin-top: 0.67em;
+      margin-bottom: 0.67em;
+    }
+    .ProseMirror h2.tiptap-heading {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-top: 0.83em;
+      margin-bottom: 0.83em;
+    }
+    .ProseMirror h3.tiptap-heading {
+      font-size: 1.17em;
+      font-weight: bold;
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+  `;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   const editor = useEditor({
     // @ts-expect-error works
     key: `editor-${editorKey}`,
     extensions: [
-      StarterKit,
-      Image.configure({
+      StarterKit.configure({
+        heading: {
+          levels: [1, 2, 3],
+          HTMLAttributes: {
+            class: 'tiptap-heading',
+          },
+        },
+      }),
+      CustomImage.configure({
         inline: false,
         allowBase64: true,
       }),
@@ -105,15 +287,30 @@ export default function TiptapEditor({
           'prose max-w-none p-4 min-h-[400px] bg-white rounded-b-md text-gray-900 focus:outline-none',
       },
     },
+    parseOptions: {
+      preserveWhitespace: 'full',
+    },
   });
 
-  // Add image with alignment class
+  // Add image with alignment class and proper styling
   const addImageWithAlignment = useCallback(
     (editor: Editor, url: string, alignment: string, width: string) => {
       if (!editor) return;
 
-      const imageHtml = `<img src="${url}" class="image-align-${alignment}" style="width: ${width};" />`;
-      editor.commands.insertContent(imageHtml);
+      const styleAttr = `width: ${width};`;
+      const classAttr = `image-align-${alignment}`;
+
+      editor
+        .chain()
+        .focus()
+        .setImage({
+          src: url,
+          // @ts-expect-error works
+          class: classAttr,
+          style: styleAttr,
+          width: width,
+        })
+        .run();
     },
     []
   );
@@ -160,7 +357,7 @@ export default function TiptapEditor({
   const addImage = useCallback(() => {
     if (!editor || !imageUrl) return;
 
-    // Insert image with alignment class
+    // Insert image with alignment class and proper styling
     addImageWithAlignment(editor, imageUrl, imageAlignment, imageWidth);
 
     // Reset form
@@ -227,22 +424,35 @@ export default function TiptapEditor({
           type='button'
           variant='ghost'
           size='sm'
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 1 }).run()
-          }
+          onClick={() => {
+            if (editor.isActive('heading', { level: 1 })) {
+              // If it's already a heading, toggle it off
+              editor.chain().focus().setParagraph().run();
+            } else {
+              // Apply heading only to selection if there is one
+              editor.chain().focus().setHeading({ level: 1 }).run();
+            }
+          }}
           className={
             editor.isActive('heading', { level: 1 }) ? 'bg-gray-200' : ''
           }
         >
           <Heading1 className='h-4 w-4' />
         </Button>
+
         <Button
           type='button'
           variant='ghost'
           size='sm'
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 2 }).run()
-          }
+          onClick={() => {
+            if (editor.isActive('heading', { level: 2 })) {
+              // If it's already a heading, toggle it off
+              editor.chain().focus().setParagraph().run();
+            } else {
+              // Apply heading only to selection if there is one
+              editor.chain().focus().setHeading({ level: 2 }).run();
+            }
+          }}
           className={
             editor.isActive('heading', { level: 2 }) ? 'bg-gray-200' : ''
           }
