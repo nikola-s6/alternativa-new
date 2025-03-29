@@ -8,7 +8,7 @@ import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Bold,
@@ -118,6 +118,12 @@ export default function TiptapEditor({
     },
   });
 
+  // Update editor content when the content prop changes
+  useEffect(() => {
+    if (editor && editor.getHTML() !== content) {
+      editor.commands.setContent(content);
+    }
+  }, [editor, content]);
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {

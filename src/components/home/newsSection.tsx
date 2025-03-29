@@ -24,7 +24,7 @@ export function NewsSection() {
   useEffect(() => {
     async function fetchNews() {
       try {
-        const response = await fetch('/api/news?limit=6');
+        const response = await fetch('/api/news?limit=1');
         const data = await response.json();
         console.log(data);
         setNews(data);

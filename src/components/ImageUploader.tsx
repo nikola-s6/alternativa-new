@@ -75,7 +75,7 @@ export default function ImageUploader({
 
   return (
     <div className='space-y-2'>
-      <label className='block text-sm font-medium text-gray-700'>{label}</label>
+      <label className='block text-sm font-normal text-white'>{label}</label>
 
       {value ? (
         <div className='relative border rounded-md overflow-hidden'>

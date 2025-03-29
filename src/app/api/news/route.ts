@@ -10,9 +10,9 @@ export type NewsArticle = {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ limit?: number }> }
+  { searchParams }: { searchParams: Promise<{ limit?: number }> }
 ) {
-  const p = await params;
+  const p = await searchParams;
 
   const limit = p?.limit;
   console.log(limit);

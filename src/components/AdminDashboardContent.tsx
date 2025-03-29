@@ -275,8 +275,8 @@ export default function AdminDashboardContent() {
       });
 
       toast({
-        title: 'Success',
-        description: 'News article created successfully.',
+        title: 'Вест креирана',
+        description: 'Вест је успешно креирана',
       });
     } catch (error) {
       toast({
@@ -326,8 +326,8 @@ export default function AdminDashboardContent() {
       );
 
       toast({
-        title: 'Success',
-        description: 'News article updated successfully.',
+        title: 'Вест измењена',
+        description: 'Вест је успешно измењена!',
       });
 
       // Reset form and selection
@@ -380,8 +380,9 @@ export default function AdminDashboardContent() {
       setSelectedNewsId('');
 
       toast({
-        title: 'Success',
-        description: 'News article deleted successfully.',
+        title: 'Вест обрисана',
+        description: 'Нова вест је успешно обрисана!',
+        variant: 'confirm',
       });
     } catch (error) {
       toast({
@@ -406,6 +407,7 @@ export default function AdminDashboardContent() {
       toast({
         title: 'Успешно одјављивање',
         description: 'Успешно сте се одјавили.',
+        variant: 'confirm',
       });
     } catch (error) {
       toast({
@@ -676,7 +678,7 @@ export default function AdminDashboardContent() {
                           onChange={(value) =>
                             setNewsForm({ ...newsForm, image: value })
                           }
-                          label='Cover Image (optional)'
+                          label='Насловна слика'
                         />
                       </div>
 
@@ -832,6 +834,7 @@ export default function AdminDashboardContent() {
                             onClick={handleUpdateNews}
                             disabled={isSavingNews}
                             className='w-full'
+                            variant='destructive'
                           >
                             {isSavingNews ? 'Ажурирање...' : 'Ажурирај Вест'}
                           </Button>
