@@ -75,6 +75,7 @@ export default function TiptapEditor({
   }, [content, initialContent]);
 
   const editor = useEditor({
+    // @ts-expect-error works
     key: `editor-${editorKey}`,
     extensions: [
       StarterKit,

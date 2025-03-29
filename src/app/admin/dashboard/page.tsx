@@ -1,11 +1,10 @@
 import { Suspense } from 'react';
 import AdminDashboardContent from '@/components/AdminDashboardContent';
+import { PageLoader } from '@/components/ui/page-loader';
 
 export default function AdminDashboardPage() {
   return (
-    <Suspense
-      fallback={<div className='container mx-auto px-4 py-16'>Loading...</div>}
-    >
+    <Suspense fallback={<PageLoader />}>
       <AdminDashboardContent />
     </Suspense>
   );
