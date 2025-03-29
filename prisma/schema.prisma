@@ -24,3 +24,13 @@ model YoutubeVideo {
   title     String
   createdAt DateTime @default(now())
 }
+
+model NewsArticle {
+  id        String   @id @default(cuid())
+  title     String
+  content   String   @db.Text
+  image     String?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

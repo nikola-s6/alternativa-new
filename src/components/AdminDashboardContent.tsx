@@ -17,23 +17,14 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Trash2, LogOut, Plus, Edit, Trash } from 'lucide-react';
 import TiptapEditor from '@/components/TipTapEditor';
 import '../app/editor-styles.css'; // Import the editor styles
+import ImageUploader from '@/components/ImageUploader';
+import { NewsArticle } from '@/app/api/news/route';
 
 // Define the Video type
 type Video = {
   id?: string;
   title: string;
   youtubeId: string;
-};
-
-// Define the NewsArticle type
-type NewsArticle = {
-  id: string;
-  title: string;
-  content: string;
-  image?: string | null;
-  published: boolean;
-  createdAt: string;
-  updatedAt: string;
 };
 
 export default function AdminDashboardContent() {
@@ -127,7 +118,7 @@ export default function AdminDashboardContent() {
     if (newsMode === 'edit' && selectedNewsId) {
       const fetchNewsArticle = async () => {
         try {
-          const response = await fetch(`/api/admin/news/${selectedNewsId}`);
+          const response = await fetch(`/api/news/${selectedNewsId}`);
 
           if (!response.ok) {
             throw new Error('Failed to fetch news article');
@@ -364,6 +355,7 @@ export default function AdminDashboardContent() {
     if (!selectedNewsId) {
       toast({
         title: 'Error',
+
         description: 'Please select a news article to delete.',
         variant: 'destructive',
       });
@@ -679,21 +671,12 @@ export default function AdminDashboardContent() {
                       </div>
 
                       <div>
-                        <label
-                          htmlFor='newsImage'
-                          className='block text-sm font-medium text-white mb-1'
-                        >
-                          URL слике (опционо)
-                        </label>
-                        <Input
-                          id='newsImage'
+                        <ImageUploader
                           value={newsForm.image || ''}
-                          onChange={(e) =>
-                            setNewsForm({ ...newsForm, image: e.target.value })
+                          onChange={(value) =>
+                            setNewsForm({ ...newsForm, image: value })
                           }
-                          placeholder='https://example.com/image.jpg'
-                          className='bg-white/10 text-white placeholder:text-gray-400 border-white/20'
-                          disabled={isSavingNews}
+                          label='Cover Image (optional)'
                         />
                       </div>
 
@@ -803,24 +786,12 @@ export default function AdminDashboardContent() {
                           </div>
 
                           <div>
-                            <label
-                              htmlFor='editNewsImage'
-                              className='block text-sm font-medium text-white mb-1'
-                            >
-                              URL слике (опционо)
-                            </label>
-                            <Input
-                              id='editNewsImage'
+                            <ImageUploader
                               value={newsForm.image || ''}
-                              onChange={(e) =>
-                                setNewsForm({
-                                  ...newsForm,
-                                  image: e.target.value,
-                                })
+                              onChange={(value) =>
+                                setNewsForm({ ...newsForm, image: value })
                               }
-                              placeholder='https://example.com/image.jpg'
-                              className='bg-white/10 text-white placeholder:text-gray-400 border-white/20'
-                              disabled={isSavingNews}
+                              label='Cover Image (optional)'
                             />
                           </div>
 
@@ -839,6 +810,7 @@ export default function AdminDashboardContent() {
 
                           <div className='flex items-center space-x-2'>
                             <Checkbox
+                              className='bg-white'
                               id='editNewsPublished'
                               checked={newsForm.published}
                               onCheckedChange={(checked) =>

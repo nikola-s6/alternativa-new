@@ -5,7 +5,8 @@ import Image from 'next/image';
 import type { NewsArticle } from '@/app/api/news/route';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const formatDate = (dateString: string) => {
+const formatDate = (dateString: string | Date) => {
+  console.log(dateString, '--------------------------------------------');
   const date = new Date(dateString);
   return new Intl.DateTimeFormat('en-GB', {
     day: '2-digit',
@@ -23,8 +24,9 @@ export function NewsSection() {
   useEffect(() => {
     async function fetchNews() {
       try {
-        const response = await fetch('/api/news');
+        const response = await fetch('/api/news?limit=6');
         const data = await response.json();
+        console.log(data);
         setNews(data);
       } catch (error) {
         console.error('Error fetching news:', error);
@@ -57,31 +59,31 @@ export function NewsSection() {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {loading
             ? Array(6)
-              .fill(0)
-              .map((_, index) => <NewsSkeleton key={index} />)
+                .fill(0)
+                .map((_, index) => <NewsSkeleton key={index} />)
             : news.map((article) => (
-              <div
-                key={article.id}
-                className='cursor-pointer bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full'
-              >
-                <div className='relative h-48'>
-                  <Image
-                    src={article.image || '/placeholder.svg'}
-                    alt={article.title}
-                    layout='fill'
-                    objectFit='cover'
-                  />
+                <div
+                  key={article.id}
+                  className='cursor-pointer bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full'
+                >
+                  <div className='relative h-48'>
+                    <Image
+                      src={article.image || '/placeholder.svg'}
+                      alt={article.title}
+                      layout='fill'
+                      objectFit='cover'
+                    />
+                  </div>
+                  <div className='p-4 flex flex-col flex-grow'>
+                    <h3 className='text-xl font-semibold mb-2 flex-grow'>
+                      {article.title}
+                    </h3>
+                    <p className='text-sm text-gray-500 mt-auto'>
+                      {formatDate(article.createdAt)}
+                    </p>
+                  </div>
                 </div>
-                <div className='p-4 flex flex-col flex-grow'>
-                  <h3 className='text-xl font-semibold mb-2 flex-grow'>
-                    {article.title}
-                  </h3>
-                  <p className='text-sm text-gray-500 mt-auto'>
-                    {formatDate(article.date)}
-                  </p>
-                </div>
-              </div>
-            ))}
+              ))}
         </div>
       </div>
     </section>

@@ -1,12 +1,14 @@
 'use client';
 
+import type React from 'react';
+
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Bold,
@@ -23,6 +25,7 @@ import {
   AlignCenter,
   AlignRight,
   AlignJustify,
+  Upload,
 } from 'lucide-react';
 import {
   Dialog,
@@ -35,6 +38,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { fileToBase64, validateImage, compressImage } from '@/lib/image-utils';
+import { useToast } from '@/hooks/use-toast';
 
 // Custom extension for resizable images
 const ResizableImage = Image.extend({
@@ -84,6 +90,11 @@ export default function TiptapEditor({
   const [imageWidth, setImageWidth] = useState('100%');
   const [imageAlignment, setImageAlignment] = useState('center');
   const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
+  const [imageTab, setImageTab] = useState('url');
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadPreview, setUploadPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   const editor = useEditor({
     extensions: [
@@ -107,6 +118,45 @@ export default function TiptapEditor({
     },
   });
 
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file
+    const validation = validateImage(file, 5); // 5MB max
+    if (!validation.valid) {
+      toast({
+        title: 'Error',
+        description: validation.message,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      // Compress image
+      const compressedFile = await compressImage(file);
+
+      // Convert to base64
+      const base64 = await fileToBase64(compressedFile);
+
+      // Set preview and URL
+      setUploadPreview(base64);
+      setImageUrl(base64);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to process image',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   const addImage = useCallback(() => {
     if (!editor || !imageUrl) return;
 
@@ -126,7 +176,13 @@ export default function TiptapEditor({
     setImageUrl('');
     setImageWidth('100%');
     setImageAlignment('center');
+    setUploadPreview(null);
     setIsImageDialogOpen(false);
+
+    // Reset file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   }, [editor, imageUrl, imageAlignment, imageWidth]);
 
   const setLink = () => {
@@ -295,23 +351,87 @@ export default function TiptapEditor({
               <ImageIcon className='h-4 w-4' />
             </Button>
           </DialogTrigger>
-          <DialogContent className='sm:max-w-[425px]'>
+          <DialogContent className='sm:max-w-[500px]'>
             <DialogHeader>
               <DialogTitle>Insert Image</DialogTitle>
             </DialogHeader>
+
+            <Tabs
+              defaultValue='upload'
+              value={imageTab}
+              onValueChange={setImageTab}
+              className='mt-2'
+            >
+              <TabsList className='grid w-full grid-cols-2'>
+                <TabsTrigger value='upload'>Upload Image</TabsTrigger>
+                <TabsTrigger value='url'>Image URL</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value='upload' className='py-4'>
+                <div className='space-y-4'>
+                  <div className='flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-md p-6 cursor-pointer hover:border-gray-400 transition-colors'>
+                    <input
+                      type='file'
+                      ref={fileInputRef}
+                      accept='image/*'
+                      onChange={handleFileChange}
+                      className='hidden'
+                      id='image-upload'
+                    />
+                    <label
+                      htmlFor='image-upload'
+                      className='cursor-pointer flex flex-col items-center'
+                    >
+                      <Upload className='h-8 w-8 text-gray-500 mb-2' />
+                      <span className='text-sm text-gray-500'>
+                        Click to upload or drag and drop
+                      </span>
+                      <span className='text-xs text-gray-400 mt-1'>
+                        PNG, JPG, GIF up to 5MB
+                      </span>
+                    </label>
+                  </div>
+
+                  {isUploading && (
+                    <div className='text-center py-2'>
+                      <span className='text-sm text-gray-500'>
+                        Processing image...
+                      </span>
+                    </div>
+                  )}
+
+                  {uploadPreview && (
+                    <div className='mt-4'>
+                      <p className='text-sm font-medium mb-2'>Preview:</p>
+                      <div className='relative border border-gray-200 rounded-md overflow-hidden'>
+                        <img
+                          src={uploadPreview || '/placeholder.svg'}
+                          alt='Preview'
+                          className='max-h-[200px] mx-auto'
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </TabsContent>
+
+              <TabsContent value='url' className='py-4'>
+                <div className='grid grid-cols-4 items-center gap-4'>
+                  <Label htmlFor='imageUrl' className='text-right'>
+                    Image URL
+                  </Label>
+                  <Input
+                    id='imageUrl'
+                    value={imageUrl}
+                    onChange={(e) => setImageUrl(e.target.value)}
+                    placeholder='https://example.com/image.jpg'
+                    className='col-span-3'
+                  />
+                </div>
+              </TabsContent>
+            </Tabs>
+
             <div className='grid gap-4 py-4'>
-              <div className='grid grid-cols-4 items-center gap-4'>
-                <Label htmlFor='imageUrl' className='text-right'>
-                  Image URL
-                </Label>
-                <Input
-                  id='imageUrl'
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder='https://example.com/image.jpg'
-                  className='col-span-3'
-                />
-              </div>
               <div className='grid grid-cols-4 items-center gap-4'>
                 <Label htmlFor='imageWidth' className='text-right'>
                   Width
@@ -346,8 +466,13 @@ export default function TiptapEditor({
                 </RadioGroup>
               </div>
             </div>
+
             <DialogFooter>
-              <Button type='submit' onClick={addImage} disabled={!imageUrl}>
+              <Button
+                type='submit'
+                onClick={addImage}
+                disabled={!imageUrl || isUploading}
+              >
                 Insert Image
               </Button>
             </DialogFooter>
