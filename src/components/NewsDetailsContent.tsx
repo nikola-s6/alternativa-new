@@ -7,6 +7,7 @@ import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import SecondaryHeader from '@/components/SecondaryHeader';
+import { formatDate } from '@/lib/helpers';
 
 type NewsArticle = {
   id: string;
@@ -49,17 +50,6 @@ export default function NewsDetailContent({ id }: { id: string }) {
     fetchArticle();
   }, [id]);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return new Intl.DateTimeFormat('en-GB', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    })
-      .format(date)
-      .replace(/\//g, '.');
-  };
-
   const handleGoBack = () => {
     router.back();
   };
@@ -101,7 +91,7 @@ export default function NewsDetailContent({ id }: { id: string }) {
 
   return (
     <main>
-      <SecondaryHeader title='News' />
+      <SecondaryHeader title='Вести' />
 
       <section className='py-16 bg-white'>
         <div className='container mx-auto px-4'>

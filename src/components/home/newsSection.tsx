@@ -5,17 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { NewsArticle } from '@/app/api/news/route';
 import { Skeleton } from '@/components/ui/skeleton';
-
-const formatDate = (dateString: string | Date) => {
-  const date = new Date(dateString);
-  return new Intl.DateTimeFormat('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  })
-    .format(date)
-    .replace(/\//g, '.');
-};
+import { formatDate } from '@/lib/helpers';
 
 export function NewsSection() {
   const [news, setNews] = useState<NewsArticle[]>([]);
