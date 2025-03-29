@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import SecondaryHeader from '@/components/SecondaryHeader';
 import type { NewsArticle } from '@/app/api/news/route';
 import { formatDate, normalizeStringForSearch } from '@/lib/helpers';
+import { NewsPlaceholder } from './NewsPlaceholder';
 
 export default function NewsListContent() {
   const [news, setNews] = useState<NewsArticle[]>([]);
@@ -122,12 +123,16 @@ export default function NewsListContent() {
                   className='bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300'
                 >
                   <div className='relative h-48'>
-                    <Image
-                      src={article.image || '/placeholder.svg'}
-                      alt={article.title}
-                      fill
-                      className='object-cover'
-                    />
+                    {article.image ? (
+                      <Image
+                        src={article.image || '/placeholder.svg'}
+                        alt={article.title}
+                        fill
+                        className='object-cover'
+                      />
+                    ) : (
+                      <NewsPlaceholder />
+                    )}
                   </div>
                   <div className='p-4 flex flex-col flex-grow'>
                     <h3 className='text-xl font-semibold mb-2 flex-grow'>

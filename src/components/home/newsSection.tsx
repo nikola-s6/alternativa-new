@@ -6,6 +6,7 @@ import Link from 'next/link';
 import type { NewsArticle } from '@/app/api/news/route';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatDate } from '@/lib/helpers';
+import { NewsPlaceholder } from '../NewsPlaceholder';
 
 export function NewsSection() {
   const [news, setNews] = useState<NewsArticle[]>([]);
@@ -57,12 +58,16 @@ export function NewsSection() {
                   className='bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300'
                 >
                   <div className='relative h-48'>
-                    <Image
-                      src={article.image || '/placeholder.svg'}
-                      alt={article.title}
-                      layout='fill'
-                      objectFit='cover'
-                    />
+                    {article.image ? (
+                      <Image
+                        src={article.image || '/placeholder.svg'}
+                        alt={article.title}
+                        layout='fill'
+                        objectFit='cover'
+                      />
+                    ) : (
+                      <NewsPlaceholder />
+                    )}
                   </div>
                   <div className='p-4 flex flex-col flex-grow'>
                     <h3 className='text-xl font-semibold mb-2 flex-grow'>
