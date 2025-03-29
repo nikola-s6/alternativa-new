@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import type { NewsArticle } from '@/app/api/news/route';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const formatDate = (dateString: string | Date) => {
-  console.log(dateString, '--------------------------------------------');
   const date = new Date(dateString);
   return new Intl.DateTimeFormat('en-GB', {
     day: '2-digit',
@@ -61,9 +61,10 @@ export function NewsSection() {
                 .fill(0)
                 .map((_, index) => <NewsSkeleton key={index} />)
             : news.map((article) => (
-                <div
+                <Link
+                  href={`/news/${article.id}`}
                   key={article.id}
-                  className='cursor-pointer bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full'
+                  className='bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300'
                 >
                   <div className='relative h-48'>
                     <Image
@@ -81,7 +82,7 @@ export function NewsSection() {
                       {formatDate(article.createdAt)}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))}
         </div>
       </div>
