@@ -48,6 +48,7 @@ export default function AdminDashboardContent() {
     image: '',
     published: false,
   });
+  const [editorKey, setEditorKey] = useState(Date.now());
 
   const { toast } = useToast();
   const router = useRouter();
@@ -118,6 +119,7 @@ export default function AdminDashboardContent() {
     if (newsMode === 'edit' && selectedNewsId) {
       const fetchNewsArticle = async () => {
         try {
+          setIsSavingNews(true);
           const response = await fetch(`/api/news/${selectedNewsId}`);
 
           if (!response.ok) {
@@ -125,18 +127,27 @@ export default function AdminDashboardContent() {
           }
 
           const data = await response.json();
+          console.log('Fetched article data:', data);
+
+          // Force editor to recreate with new content
+          setEditorKey(Date.now());
+
+          // Set form data
           setNewsForm({
             title: data.title,
             content: data.content,
             image: data.image || '',
             published: data.published,
           });
+
+          setIsSavingNews(false);
         } catch (error) {
           toast({
             title: 'Error',
             description: 'Failed to load news article. Please try again.',
             variant: 'destructive',
           });
+          setIsSavingNews(false);
         }
       };
 
@@ -266,7 +277,7 @@ export default function AdminDashboardContent() {
       // Update local state
       setNewsArticles([addedNews, ...newsArticles]);
 
-      // Reset form
+      // Reset form with empty values
       setNewsForm({
         title: '',
         content: '',
@@ -274,9 +285,13 @@ export default function AdminDashboardContent() {
         published: false,
       });
 
+      // Force editor to recreate with empty content
+      setEditorKey(Date.now());
+
       toast({
         title: 'Вест креирана',
         description: 'Вест је успешно креирана',
+        variant: 'confirm',
       });
     } catch (error) {
       toast({
@@ -328,6 +343,7 @@ export default function AdminDashboardContent() {
       toast({
         title: 'Вест измењена',
         description: 'Вест је успешно измењена!',
+        variant: 'confirm',
       });
 
       // Reset form and selection
@@ -339,6 +355,9 @@ export default function AdminDashboardContent() {
       });
       setSelectedNewsId('');
       setNewsMode('create');
+
+      // Force editor to recreate with empty content
+      setEditorKey(Date.now());
     } catch (error) {
       toast({
         title: 'Error',
@@ -355,7 +374,6 @@ export default function AdminDashboardContent() {
     if (!selectedNewsId) {
       toast({
         title: 'Error',
-
         description: 'Please select a news article to delete.',
         variant: 'destructive',
       });
@@ -428,6 +446,9 @@ export default function AdminDashboardContent() {
         published: false,
       });
       setSelectedNewsId('');
+
+      // Force editor to recreate with empty content
+      setEditorKey(Date.now());
     }
   }, [newsMode]);
 
@@ -687,6 +708,7 @@ export default function AdminDashboardContent() {
                           Садржај
                         </label>
                         <TiptapEditor
+                          key={`create-${editorKey}`}
                           content={newsForm.content}
                           onChange={(content) =>
                             setNewsForm({ ...newsForm, content })
@@ -801,13 +823,20 @@ export default function AdminDashboardContent() {
                             <label className='block text-sm font-medium text-white mb-1'>
                               Садржај
                             </label>
-                            <TiptapEditor
-                              content={newsForm.content}
-                              onChange={(content) =>
-                                setNewsForm({ ...newsForm, content })
-                              }
-                              placeholder='Унесите садржај вести...'
-                            />
+                            {isSavingNews ? (
+                              <div className='bg-white/10 rounded-md p-4 text-center text-white'>
+                                <p>Loading editor content...</p>
+                              </div>
+                            ) : (
+                              <TiptapEditor
+                                key={`edit-${editorKey}`}
+                                content={newsForm.content}
+                                onChange={(content) =>
+                                  setNewsForm({ ...newsForm, content })
+                                }
+                                placeholder='Унесите садржај вести...'
+                              />
+                            )}
                           </div>
 
                           <div className='flex items-center space-x-2'>

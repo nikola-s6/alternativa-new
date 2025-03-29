@@ -2,7 +2,7 @@
 
 import type React from 'react';
 
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, type Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
@@ -42,39 +42,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { fileToBase64, validateImage, compressImage } from '@/lib/image-utils';
 import { useToast } from '@/hooks/use-toast';
 
-// Custom extension for resizable images
-const ResizableImage = Image.extend({
-  addAttributes() {
-    return {
-      ...this.parent?.(),
-      width: {
-        default: '100%',
-        renderHTML: (attributes) => {
-          return {
-            width: attributes.width,
-          };
-        },
-      },
-      height: {
-        default: 'auto',
-        renderHTML: (attributes) => {
-          return {
-            height: attributes.height,
-          };
-        },
-      },
-      alignment: {
-        default: 'center',
-        renderHTML: (attributes) => {
-          return {
-            class: `image-align-${attributes.alignment}`,
-          };
-        },
-      },
-    };
-  },
-});
-
 interface TiptapEditorProps {
   content: string;
   onChange: (content: string) => void;
@@ -95,11 +62,26 @@ export default function TiptapEditor({
   const [uploadPreview, setUploadPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const [editorKey, setEditorKey] = useState(Date.now());
+  const [initialContent, setInitialContent] = useState(content);
+
+  // Force re-render of editor when content changes significantly
+  useEffect(() => {
+    if (content !== initialContent) {
+      console.log('Content changed significantly, recreating editor');
+      setInitialContent(content);
+      setEditorKey(Date.now());
+    }
+  }, [content, initialContent]);
 
   const editor = useEditor({
+    key: `editor-${editorKey}`,
     extensions: [
       StarterKit,
-      ResizableImage,
+      Image.configure({
+        inline: false,
+        allowBase64: true,
+      }),
       Link.configure({
         openOnClick: false,
       }),
@@ -112,18 +94,29 @@ export default function TiptapEditor({
         defaultAlignment: 'left',
       }),
     ],
-    content,
+    content: content,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
+    editorProps: {
+      attributes: {
+        class:
+          'prose max-w-none p-4 min-h-[400px] bg-white rounded-b-md text-gray-900 focus:outline-none',
+      },
+    },
   });
 
-  // Update editor content when the content prop changes
-  useEffect(() => {
-    if (editor && editor.getHTML() !== content) {
-      editor.commands.setContent(content);
-    }
-  }, [editor, content]);
+  // Add image with alignment class
+  const addImageWithAlignment = useCallback(
+    (editor: Editor, url: string, alignment: string, width: string) => {
+      if (!editor) return;
+
+      const imageHtml = `<img src="${url}" class="image-align-${alignment}" style="width: ${width};" />`;
+      editor.commands.insertContent(imageHtml);
+    },
+    []
+  );
+
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -166,17 +159,8 @@ export default function TiptapEditor({
   const addImage = useCallback(() => {
     if (!editor || !imageUrl) return;
 
-    // Insert image with specified alignment and width
-    editor
-      .chain()
-      .focus()
-      .setImage({
-        src: imageUrl,
-        // @ts-expect-error works
-        alignment: imageAlignment,
-        width: imageWidth,
-      })
-      .run();
+    // Insert image with alignment class
+    addImageWithAlignment(editor, imageUrl, imageAlignment, imageWidth);
 
     // Reset form
     setImageUrl('');
@@ -189,7 +173,7 @@ export default function TiptapEditor({
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
-  }, [editor, imageUrl, imageAlignment, imageWidth]);
+  }, [editor, imageUrl, imageAlignment, imageWidth, addImageWithAlignment]);
 
   const setLink = () => {
     if (!editor) return;
@@ -508,10 +492,7 @@ export default function TiptapEditor({
           <Redo className='h-4 w-4' />
         </Button>
       </div>
-      <EditorContent
-        editor={editor}
-        className='prose max-w-none p-4 min-h-[400px] bg-white rounded-b-md text-gray-900'
-      />
+      <EditorContent editor={editor} />
     </div>
   );
 }
