@@ -8,20 +8,18 @@ export type NewsArticle = {
   createdAt: Date;
 };
 
-export async function GET(
-  request: NextRequest,
-  { searchParams }: { searchParams: Promise<{ limit?: number }> }
-) {
-  const p = await searchParams;
+export async function GET(request: NextRequest) {
+  // Get the limit parameter from the URL search params
+  const limitParam = request.nextUrl.searchParams.get('limit');
 
-  const limit = p?.limit;
-  console.log(limit);
+  // Convert to number if it exists, otherwise undefined
+  const limit = limitParam ? parseInt(limitParam, 10) : undefined;
 
   const newsArticles = await prisma.newsArticle.findMany({
     where: {
       published: true,
     },
-    take: limit,
+    take: limit, // This will be ignored if limit is undefined
     orderBy: {
       createdAt: 'desc',
     },
@@ -32,7 +30,6 @@ export async function GET(
       id: true,
     },
   });
-  console.log(newsArticles);
 
   return NextResponse.json(newsArticles);
 }
