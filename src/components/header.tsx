@@ -40,11 +40,11 @@ const Header = () => {
           <div className='flex-shrink-0'>
             <Link href='/' className='block'>
               <Image
-                src='/logos/white.jpg'
+                src='/logos/alternativalogo2.svg'
                 alt='Logo'
-                width={100}
-                height={40}
-                className='h-10 w-auto'
+                width={160}
+                height={64}
+                className='h-[55px] w-auto'
               />
             </Link>
           </div>
@@ -116,14 +116,14 @@ const Header = () => {
       {/* Mobile Menu */}
       {isMobile && isMobileMenuOpen && (
         <div className='fixed inset-0 bg-white z-50 overflow-y-auto'>
-          <div className='flex justify-between items-center p-4 border-b'>
+          <div className='flex justify-between items-center px-4 border-b-2 h-16'>
             <Link href='/' className='block'>
               <Image
-                src='/logos/white.jpg'
+                src='/logos/alternativalogo2.svg'
                 alt='Logo'
-                width={100}
-                height={40}
-                className='h-10 w-auto'
+                width={160}
+                height={64}
+                className='h-[55px] w-auto'
               />
             </Link>
             <button
