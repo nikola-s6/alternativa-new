@@ -8,7 +8,8 @@ const EMAIL_PASS = process.env.EMAIL_PASS;
 
 // Create a transporter object
 const transporter = nodemailer.createTransport({
-  host: 'carl.dnsserve.rs',
+  service: 'Gmail',
+  host: 'smtp.gmail.com',
   port: 465,
   secure: true,
   auth: {
