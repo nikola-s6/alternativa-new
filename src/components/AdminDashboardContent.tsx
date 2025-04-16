@@ -19,6 +19,7 @@ import TiptapEditor from '@/components/TipTapEditor';
 import '../app/editor-styles.css'; // Import the editor styles
 import ImageUploader from '@/components/ImageUploader';
 import { NewsArticle } from '@/app/api/news/route';
+import AdminTeamSection from './AdminTeamSection';
 
 // Define the Video type
 type Video = {
@@ -629,7 +630,7 @@ export default function AdminDashboardContent() {
             </div>
 
             {/* News Management Section */}
-            <div className='bg-primary rounded-lg shadow-lg border-8 border-destructive'>
+            <div className='bg-primary rounded-lg shadow-lg border-8 border-destructive mb-16'>
               <div className='w-full bg-destructive p-8'>
                 <h2 className='text-4xl font-bold text-white mb-6 text-center'>
                   Управљање Вестима
@@ -932,6 +933,7 @@ export default function AdminDashboardContent() {
                 </Tabs>
               </div>
             </div>
+            <AdminTeamSection />
           </div>
         </div>
       </section>

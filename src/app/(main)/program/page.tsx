@@ -220,7 +220,7 @@ export default function Program() {
           <p className='text-xl text-primary mb-6 before:content-["а)"] before:font-extrabold'>
             {' '}
             Активно ћемо радити на промоцији кампинга, конгресног, спортског и
-            ловног турнизма како бисмо постали прва општина у Београду на овим
+            ловног туризма како бисмо постали прва општина у Београду на овим
             пољима;
           </p>
           <p className='text-xl text-primary mb-6 before:content-["б)"] before:font-extrabold'>
@@ -250,7 +250,7 @@ export default function Program() {
           </p>
           <p className='text-xl text-primary mb-6 before:content-["б)"] before:font-extrabold'>
             {' '}
-            Значајно ћемо радити на улагању и развој културних садржаја на
+            Значајно ћемо радити на улагању и развоју културних садржаја на
             Чукарици, као што су галерије и позоришта;
           </p>
           <p className='text-xl text-primary mb-10 before:content-["в)"] before:font-extrabold'>
@@ -261,14 +261,14 @@ export default function Program() {
         </div>
         <div className='flex flex-row justify-center'>
           <a
-            href='/files/program.pdf'
-            download='Програм - Чукарица на првом месту.pdf'
+            href='/files/statut.pdf'
+            download='Статут.pdf'
           >
             <Button
               className='text-lg lg:text-xl font-bold'
               variant='destructive'
             >
-              Преузми програм
+              Преузми статут
             </Button>
           </a>
         </div>

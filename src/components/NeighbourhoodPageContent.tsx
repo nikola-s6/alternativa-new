@@ -94,7 +94,7 @@ export default function NeighborhoodPageContent() {
                 форме.
               </p>
               <Link href='/contact'>
-                <Button variant='destructive'>Попуни формулар</Button>
+                <Button className='font-bold' variant='destructive'>Прикључи се</Button>
               </Link>
             </div>
           </div>
