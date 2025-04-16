@@ -2,9 +2,9 @@ import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
 // GET - Fetch a specific team member
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params
+    const { id } = await params
 
     // Fetch the team member
     const teamMember = await prisma.teamMember.findUnique({
@@ -23,9 +23,9 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // PUT - Update a team member
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params
+    const { id } = await params
 
     // Parse request body
     const body = await request.json()
@@ -57,9 +57,9 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // DELETE - Delete a team member
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params
+    const { id } = await params
 
     // Delete the team member
     await prisma.teamMember.delete({
