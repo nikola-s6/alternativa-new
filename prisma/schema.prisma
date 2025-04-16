@@ -26,13 +26,14 @@ model YoutubeVideo {
 }
 
 model NewsArticle {
-  id        String   @id @default(cuid())
-  title     String
-  content   String   @db.Text
-  image     String?
-  published Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  title       String
+  content     String   @db.Text
+  image       String?
+  published   Boolean  @default(false)
+  publishDate DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model TeamMember {

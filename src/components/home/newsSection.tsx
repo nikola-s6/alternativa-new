@@ -49,36 +49,36 @@ export function NewsSection() {
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
           {loading
             ? Array(6)
-                .fill(0)
-                .map((_, index) => <NewsSkeleton key={index} />)
+              .fill(0)
+              .map((_, index) => <NewsSkeleton key={index} />)
             : news.map((article) => (
-                <Link
-                  href={`/news/${article.id}`}
-                  key={article.id}
-                  className='bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300'
-                >
-                  <div className='relative h-48'>
-                    {article.image ? (
-                      <Image
-                        src={article.image || '/placeholder.svg'}
-                        alt={article.title}
-                        layout='fill'
-                        objectFit='cover'
-                      />
-                    ) : (
-                      <NewsPlaceholder />
-                    )}
-                  </div>
-                  <div className='p-4 flex flex-col flex-grow'>
-                    <h3 className='text-xl font-semibold mb-2 flex-grow'>
-                      {article.title}
-                    </h3>
-                    <p className='text-sm text-gray-500 mt-auto'>
-                      {formatDate(article.createdAt)}
-                    </p>
-                  </div>
-                </Link>
-              ))}
+              <Link
+                href={`/news/${article.id}`}
+                key={article.id}
+                className='bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full hover:shadow-xl transition-shadow duration-300'
+              >
+                <div className='relative h-48'>
+                  {article.image ? (
+                    <Image
+                      src={article.image || '/placeholder.svg'}
+                      alt={article.title}
+                      layout='fill'
+                      objectFit='cover'
+                    />
+                  ) : (
+                    <NewsPlaceholder />
+                  )}
+                </div>
+                <div className='p-4 flex flex-col flex-grow'>
+                  <h3 className='text-xl font-semibold mb-2 flex-grow'>
+                    {article.title}
+                  </h3>
+                  <p className='text-sm text-gray-500 mt-auto'>
+                    {formatDate(article.publishDate)}
+                  </p>
+                </div>
+              </Link>
+            ))}
         </div>
       </div>
     </section>

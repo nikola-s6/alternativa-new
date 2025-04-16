@@ -12,7 +12,7 @@ export async function PUT(
 
     // Parse request body
     const body = await request.json();
-    const { title, content, image, published } = body;
+    const { title, content, image, published, publishDate } = body;
 
     // Validate input
     if (!title || !content) {
@@ -30,6 +30,7 @@ export async function PUT(
         content,
         image: image || null,
         published: published || false,
+        publishDate: publishDate ? new Date(publishDate) : undefined,
         updatedAt: new Date(),
       },
     });

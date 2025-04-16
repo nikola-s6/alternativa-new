@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   try {
     // Parse request body
     const body = await request.json();
-    const { title, content, image, published } = body;
+    const { title, content, image, published, publishDate } = body;
 
     // Validate input
     if (!title || !content) {
@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
         content,
         image: image || null,
         published: published || false,
+        publishDate: publishDate ? new Date(publishDate) : new Date()
       },
     });
 

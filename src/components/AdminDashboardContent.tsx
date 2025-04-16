@@ -14,12 +14,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Trash2, LogOut, Plus, Edit, Trash } from 'lucide-react';
+import { Trash2, LogOut, Plus, Edit, Trash, Calendar } from 'lucide-react';
 import TiptapEditor from '@/components/TipTapEditor';
 import '../app/editor-styles.css'; // Import the editor styles
 import ImageUploader from '@/components/ImageUploader';
 import { NewsArticle } from '@/app/api/news/route';
 import AdminTeamSection from './AdminTeamSection';
+import { format } from "date-fns"
+import { Calendar as CalendarComponent } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 // Define the Video type
 type Video = {
@@ -48,8 +51,10 @@ export default function AdminDashboardContent() {
     content: '',
     image: '',
     published: false,
+    publishDate: new Date().toISOString()
   });
   const [editorKey, setEditorKey] = useState(Date.now());
+  const [datePickerOpen, setDatePickerOpen] = useState(false)
 
   const { toast } = useToast();
   const router = useRouter();
@@ -139,6 +144,7 @@ export default function AdminDashboardContent() {
             content: data.content,
             image: data.image || '',
             published: data.published,
+            publishDate: data.publishDate
           });
 
           setIsSavingNews(false);
@@ -284,6 +290,7 @@ export default function AdminDashboardContent() {
         content: '',
         image: '',
         published: false,
+        publishDate: new Date().toISOString()
       });
 
       // Force editor to recreate with empty content
@@ -353,6 +360,7 @@ export default function AdminDashboardContent() {
         content: '',
         image: '',
         published: false,
+        publishDate: new Date().toISOString()
       });
       setSelectedNewsId('');
       setNewsMode('create');
@@ -445,6 +453,7 @@ export default function AdminDashboardContent() {
         content: '',
         image: '',
         published: false,
+        publishDate: new Date().toISOString()
       });
       setSelectedNewsId('');
 
@@ -452,6 +461,15 @@ export default function AdminDashboardContent() {
       setEditorKey(Date.now());
     }
   }, [newsMode]);
+
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    try {
+      return format(new Date(dateString), "dd.MM.yyyy")
+    } catch (error) {
+      return "Invalid date"
+    }
+  }
 
   return (
     <main>
@@ -694,6 +712,37 @@ export default function AdminDashboardContent() {
                         />
                       </div>
 
+                      {/* Publish Date Picker */}
+                      <div>
+                        <label htmlFor="publishDate" className="block text-sm font-medium text-white mb-1">
+                          Датум објаве
+                        </label>
+                        <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="outline"
+                              className="w-full justify-start text-left font-normal bg-white/10 text-white border-white/20 hover:bg-white/20"
+                            >
+                              <Calendar className="mr-2 h-4 w-4" />
+                              {newsForm.publishDate ? formatDate(newsForm.publishDate) : "Изаберите датум"}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0 bg-white" align="start">
+                            <CalendarComponent
+                              mode="single"
+                              selected={new Date(newsForm.publishDate)}
+                              onSelect={(date) => {
+                                if (date) {
+                                  setNewsForm({ ...newsForm, publishDate: date.toISOString() })
+                                  setDatePickerOpen(false)
+                                }
+                              }}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+
                       <div>
                         <ImageUploader
                           value={newsForm.image || ''}
@@ -808,6 +857,37 @@ export default function AdminDashboardContent() {
                               className='bg-white/10 text-white placeholder:text-gray-400 border-white/20'
                               disabled={isSavingNews}
                             />
+                          </div>
+
+                          {/* Edit Publish Date Picker */}
+                          <div>
+                            <label htmlFor="editPublishDate" className="block text-sm font-medium text-white mb-1">
+                              Датум објаве
+                            </label>
+                            <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  className="w-full justify-start text-left font-normal bg-white/10 text-white border-white/20 hover:bg-white/20"
+                                >
+                                  <Calendar className="mr-2 h-4 w-4" />
+                                  {newsForm.publishDate ? formatDate(newsForm.publishDate) : "Изаберите датум"}
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0 bg-white" align="start">
+                                <CalendarComponent
+                                  mode="single"
+                                  selected={new Date(newsForm.publishDate)}
+                                  onSelect={(date) => {
+                                    if (date) {
+                                      setNewsForm({ ...newsForm, publishDate: date.toISOString() })
+                                      setDatePickerOpen(false)
+                                    }
+                                  }}
+                                  initialFocus
+                                />
+                              </PopoverContent>
+                            </Popover>
                           </div>
 
                           <div>

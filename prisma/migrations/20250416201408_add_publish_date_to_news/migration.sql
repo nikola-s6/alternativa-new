@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "NewsArticle" ADD COLUMN     "publishDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

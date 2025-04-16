@@ -139,7 +139,7 @@ export default function NewsListContent() {
                       {article.title}
                     </h3>
                     <p className='text-sm text-gray-500 mt-auto'>
-                      {formatDate(article.createdAt)}
+                      {formatDate(article.publishDate)}
                     </p>
                   </div>
                 </Link>

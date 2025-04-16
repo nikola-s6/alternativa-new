@@ -16,6 +16,7 @@ type NewsArticle = {
   image: string | null;
   published: boolean;
   createdAt: string;
+  publishDate: string;
   updatedAt: string;
 };
 
@@ -122,7 +123,7 @@ export default function NewsDetailContent({ id }: { id: string }) {
             </h1>
 
             <p className='text-sm text-gray-500 mb-8'>
-              Објављено {formatDate(article.createdAt)}
+              Објављено {formatDate(article.publishDate)}
             </p>
 
             <div
