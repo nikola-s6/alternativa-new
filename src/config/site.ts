@@ -44,67 +44,45 @@ export const socialItems: SocialItem[] = [
 export const neighborhoods: {
   value: string;
   title: string;
-  responsiblePerson: string;
-  phone: string;
 }[] = [
     {
       value: 'banovoBrdo',
       title: 'Баново Брдо',
-      responsiblePerson: 'Михаило Цекић',
-      phone: '+381 64 1136471',
     },
     {
       value: 'velikaMostanica',
       title: 'Велика Моштаница',
-      responsiblePerson: 'Борис Поседи',
-      phone: '+381 61 6092016',
     },
     {
       value: 'zarkovo',
       title: 'Жарково',
-      responsiblePerson: 'Урош Келечевић',
-      phone: '+381 69 2506455',
     },
     {
       value: 'zeleznik',
       title: 'Железник',
-      responsiblePerson: 'Борис Поседи',
-      phone: '+381 61 6092016',
     },
     {
       value: 'ostruznica',
       title: 'Остружница',
-      responsiblePerson: 'Борис Поседи',
-      phone: '+381 61 6092016',
     },
     {
       value: 'rusanj',
       title: 'Рушањ',
-      responsiblePerson: 'Борис Поседи',
-      phone: '+381 61 6092016',
     },
     {
       value: 'sremcica',
       title: 'Сремчица',
-      responsiblePerson: 'Борис Поседи',
-      phone: '+381 61 6092016',
     },
     {
       value: 'umka',
       title: 'Умка',
-      responsiblePerson: 'Борис Поседи',
-      phone: '+381 61 6092016',
     },
     {
       value: 'cerak',
       title: 'Церак',
-      responsiblePerson: 'Борис Поседи',
-      phone: '+381 61 6092016',
     },
     {
       value: 'cukarickaPadina',
       title: 'Чукаричка Падина',
-      responsiblePerson: 'Борис Поседи',
-      phone: '+381 61 6092016',
     },
   ];

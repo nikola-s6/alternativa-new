@@ -23,6 +23,7 @@ import AdminTeamSection from './AdminTeamSection';
 import { format } from "date-fns"
 import { Calendar as CalendarComponent } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import AdminNeighborhoodSection from './AdminNeighborhoodsSection';
 
 // Define the Video type
 type Video = {
@@ -1014,6 +1015,7 @@ export default function AdminDashboardContent() {
               </div>
             </div>
             <AdminTeamSection />
+            <AdminNeighborhoodSection />
           </div>
         </div>
       </section>
