@@ -21,7 +21,7 @@ export function BookPreview() {
             <div className='absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end'>
               <div className='p-6 text-white'>
                 <h3 className='text-2xl font-bold mb-2'>
-                  АУТОНОМИЈА ЕЛИТИСТИЧКЕ ДЕМОКРАТИЈЕ
+                  АНАТОМИЈА ЕЛИТИСТИЧКЕ ДЕМОКРАТИЈЕ
                 </h3>
                 <p>Пеђа Милосављевић</p>
               </div>
