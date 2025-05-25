@@ -7,7 +7,7 @@ export function HomeSection() {
       {/* Background Image with Gradient Overlay */}
       <div className='absolute inset-0'>
         <Image
-          src='/home.jpg'
+          src='/zajednicka.jpg'
           alt='Portrait'
           fill
           className='object-cover object-[60%_20%] transform scale-110'
